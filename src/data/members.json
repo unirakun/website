@@ -1,0 +1,46 @@
+[
+  {
+    "name": "JUIF",
+    "firstName": "Fabien",
+    "title": "Developper",
+    "image": "fabien.png",
+    "color": "#7901c3",
+    "cv": "https://work-with-us.alakarte.io/fabien",
+    "links": [
+      {
+        "icon": "twitter",
+        "link": "https://twitter.com/fabienjuif"
+      },
+      {
+        "icon": "github",
+        "link": "https://github.com/fabienjuif"
+      },
+      {
+        "icon": "linkedin",
+        "link": "https://www.linkedin.com/in/fabienjuif"
+      }
+    ]
+  },
+  {
+    "name": "CRESPEL",
+    "firstName": "Guillaume",
+    "title": "Developper",
+    "image": "guillaume.png",
+    "color": "#4d6cfa",
+    "cv": "https://work-with-us.alakarte.io/guillaume",
+    "links": [
+      {
+        "icon": "twitter",
+        "link": "https://twitter.com/guillaumcrespel"
+      },
+      {
+        "icon": "github",
+        "link": "https://github.com/guillaumecrespel"
+      },
+      {
+        "icon": "linkedin",
+        "link": "https://www.linkedin.com/in/guillaumecrespel"
+      }
+    ]
+  }
+]

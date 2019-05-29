@@ -1,0 +1,53 @@
+{
+  "name": "rakun_website",
+  "private": true,
+  "description": "A rakun website",
+  "version": "0.1.0",
+  "author": "Guillaume CRESPEL @rakun",
+  "dependencies": {
+    "@emotion/core": "^10.0.10",
+    "@rehooks/window-size": "^1.0.2",
+    "dotenv": "^8.0.0",
+    "gatsby": "^2.7.3",
+    "gatsby-image": "^2.1.1",
+    "gatsby-plugin-crisp-chat": "^3.0.0",
+    "gatsby-plugin-emotion": "^4.0.7",
+    "gatsby-plugin-google-analytics": "^2.0.20",
+    "gatsby-plugin-manifest": "^2.1.1",
+    "gatsby-plugin-offline": "^2.1.1",
+    "gatsby-plugin-prefetch-google-fonts": "^1.4.2",
+    "gatsby-plugin-react-helmet": "^3.0.12",
+    "gatsby-plugin-react-svg": "^2.1.1",
+    "gatsby-plugin-sharp": "^2.1.1",
+    "gatsby-plugin-sitemap": "^2.1.0",
+    "gatsby-plugin-typography": "^2.2.13",
+    "gatsby-plugin-web-font-loader": "^1.0.4",
+    "gatsby-source-filesystem": "^2.0.38",
+    "gatsby-transformer-json": "^2.1.11",
+    "gatsby-transformer-sharp": "^2.1.19",
+    "pathseg": "^1.2.0",
+    "prop-types": "^15.7.2",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "react-helmet": "^5.2.1",
+    "react-particles-js": "^2.6.0"
+  },
+  "devDependencies": {
+    "prettier": "^1.17.1"
+  },
+  "keywords": [
+    "gatsby",
+    "rakun"
+  ],
+  "workspaces": [
+    "src"
+  ],
+  "license": "MIT",
+  "scripts": {
+    "build": "gatsby build",
+    "develop": "gatsby develop",
+    "format": "prettier --write src/**/*.{js,jsx}",
+    "start": "npm run develop",
+    "serve": "gatsby serve"
+  }
+}
