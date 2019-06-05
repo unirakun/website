@@ -1,8 +1,9 @@
 import React from "react"
 import { StaticQuery, graphql } from "gatsby"
+import styled from 'styled-components'
 import Img from "gatsby-image"
 
-const Image = ({ fileName }) => (
+const Image = ({ className, fileName }) => (
   <StaticQuery
     query={graphql`
       query {
@@ -19,6 +20,7 @@ const Image = ({ fileName }) => (
     `}
     render={data => (
       <Img
+        className={className}
         alt={fileName}
         fluid={data.allImageSharp.edges.find(e => e.node.fluid.src.split('/').pop() === fileName).node.fluid} 
       />
@@ -26,4 +28,4 @@ const Image = ({ fileName }) => (
   />
 )
 
-export default Image
+export default styled(Image)``

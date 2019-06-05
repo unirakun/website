@@ -1,13 +1,11 @@
-import SEO from './seo'
-import Layout from './layout'
-import Members from './members'
-import Links from './links'
-import Image from './image'
+import SEO from './SEO'
+import Layout from './Layout'
+import Image from './Image'
+import ExternalLink from './ExternalLink'
 
 export {
   SEO,
   Layout,
-  Members,
-  Links,
   Image,
+  ExternalLink,
 }
