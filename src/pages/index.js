@@ -1,6 +1,6 @@
 import React from "react"
 import { css } from "@emotion/core"
-import { SEO, Layout, Members, Links, Particles } from "../components"
+import { SEO, Layout, Members, Links } from "../components"
 import Banner from "../images/rakun-banner.svg"
 
 
@@ -25,7 +25,6 @@ const IndexPage = () => (
           user-select: none;
         `}
       />
-      <Particles />
       <div
         css={css`
           position: absolute;

@@ -25,12 +25,10 @@
     "gatsby-source-filesystem": "^2.0.38",
     "gatsby-transformer-json": "^2.1.11",
     "gatsby-transformer-sharp": "^2.1.19",
-    "pathseg": "^1.2.0",
     "prop-types": "^15.7.2",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
-    "react-helmet": "^5.2.1",
-    "react-particles-js": "^2.6.0"
+    "react-helmet": "^5.2.1"
   },
   "devDependencies": {
     "prettier": "^1.17.1"
