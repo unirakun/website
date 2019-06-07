@@ -54,7 +54,6 @@ const Experience = (props) => {
 }
 
 export default styled(Experience)`
-  padding: 0 4em;
   display: grid;
   grid-template:
     "title logos"

@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { SEO, Layout, Background } from '../../components'
 import Members from './members'
-import Links from './Links'
+import Links from './links'
 import Logo from '../../images/rakun-logo.svg'
 
 const Banner = styled(Logo)`

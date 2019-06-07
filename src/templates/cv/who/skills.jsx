@@ -16,7 +16,6 @@ export default styled(Skills)`
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  margin: 0 -1em;
   margin-bottom: -4em;
   margin-top: 4em;
   padding: 1em;
