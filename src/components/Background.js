@@ -14,5 +14,4 @@ export default styled.div`
     if (gradient) return `linear-gradient(to right, ${theme.primary.bg}, ${theme.secondary.bg})`
     return ''
   }};
-  padding: 1em;
 `

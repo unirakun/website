@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Image } from '../../../components'
+import { Image } from '.'
 
 const Name = styled.span`
   color: #333;

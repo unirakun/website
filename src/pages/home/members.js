@@ -1,9 +1,7 @@
 import React from 'react'
 import { useStaticQuery, graphql, Link } from 'gatsby'
 import styled from 'styled-components'
-import { Social, Avatar } from '../../../components'
-import Card from './Card'
-import Info from './Info'
+import { Social, Avatar , Card, Info} from '../../components'
 
 const InfoLink = styled(Link)`
   display: flex;

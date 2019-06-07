@@ -19,6 +19,7 @@ const Experiences = ({ className, children = [] }) => (
 export default styled(Experiences)`
   grid-area: experiences;
   margin: 0 auto;
+  padding: 0 1em;
 
   & > h1 {
     text-align: center;

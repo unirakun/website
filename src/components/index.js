@@ -2,6 +2,8 @@ export { default as SEO } from './SEO'
 export { default as Layout } from './Layout'
 export { default as Image } from './Image'
 export { default as Social } from './Social'
+export { default as Card } from './Card'
+export { default as Info } from './Info'
 
 export { default as Age } from './Age'
 export { default as Avatar } from './Avatar'
