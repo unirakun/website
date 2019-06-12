@@ -31,10 +31,6 @@ module.exports = [
         name: 'Redux',
         note: 5,
       },
-      {
-        name: 'CSS',
-        note: 4,
-      },
     ],
   },
   {
