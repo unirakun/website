@@ -10,7 +10,7 @@ jobs:
     environment:
       - SOURCE_BRANCH: master
       - TARGET_BRANCH: gh-pages
-      - CNAME: rakun.team
+      - CNAME: unirakun.fr
     steps:
       - checkout
       - restore_cache:
