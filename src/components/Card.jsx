@@ -5,8 +5,8 @@ export default styled.div`
   max-width: 25em;
   margin: 1em;
   border-radius: .5em;
-  background-color: ${({ theme }) => theme.secondary.bg};
-  color: ${({ theme }) => theme.secondary.fg};
+  background-color: ${({ theme }) => theme.fg};
+  color: ${({ theme }) => theme.bg};
 
   &:hover {
     box-shadow: 0 0 20px -5px black;

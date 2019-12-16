@@ -38,7 +38,7 @@ const Info = ({
 
 export default styled(Info)`
   font-size: 2em;
-  color: ${({ theme }) => theme.secondary.fg};
+  color: ${({ theme }) => theme.bg};
 
   & > * {
     margin: 1rem 0;
