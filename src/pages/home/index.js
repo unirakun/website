@@ -18,6 +18,7 @@ const Header = styled(Background)`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  background-color: #ededed;
 `
 
 const Home = () => (
