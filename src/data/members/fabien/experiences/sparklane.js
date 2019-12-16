@@ -5,7 +5,7 @@ module.exports = {
     color: '#232323',
   },
   for: {
-    name: 'alakarteio',
+    name: 'unirakun',
     color: 'white',
   },
   dates: {
@@ -13,7 +13,7 @@ module.exports = {
     to: Date.UTC(2018, 2),
   },
   informations: [
-    { text: 'L\'équipe de développement de Sparklane (située à Nantes), est principalement composée de développeur backend (Java/Go). Leur stack frontend était vieillissante. Sparklane a sollicité alakarteio pour les aider à migrer leur stack frontend.' },
+    { text: 'L\'équipe de développement de Sparklane (située à Nantes), est principalement composée de développeur backend (Java/Go). Leur stack frontend était vieillissante. Sparklane a sollicité uni rakun pour les aider à migrer leur stack frontend.' },
     { text: 'Une des contrainte était de pouvoir faire cette migration par itérations, les deux versions de l\'application devaient donc co-exister. Nous avons fait le choix de conserver l\'aspect graphique, et de faire des ponts AngularJS vers React, et inversement' },
     {
       text: 'Missions :',

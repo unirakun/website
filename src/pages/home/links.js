@@ -33,11 +33,11 @@ const Links = ({ className }) => {
 }
 
 export default styled(Links)`
-  display: flex;  
+  display: flex;
   align-items: center;
   justify-content: space-between;
   position: absolute;
   width: 80%;
   max-width: 50em;
-  bottom: 10%;
+  bottom: 5%;
 `

@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { SEO, Layout, Background } from '../../components'
 import Members from './members'
 import Links from './links'
-import Logo from '../../images/rakun-logo.svg'
+import Logo from '../../images/us/unirakun.svg'
 
 const Banner = styled(Logo)`
   position: absolute;
@@ -18,12 +18,13 @@ const Header = styled(Background)`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  background-color: #ededed;
 `
 
 const Home = () => (
   <Layout>
     <SEO title='Team' />
-    <Header gradient>
+    <Header>
       <Banner />
       <Links />
     </Header>

@@ -22,10 +22,10 @@ module.exports = {
         name: 'rakun',
         short_name: 'starter',
         start_url: '/',
-        background_color: '#663399',
-        theme_color: '#663399',
+        background_color: '#fefefe',
+        theme_color: '#fefefe',
         display: 'minimal-ui',
-        icon: 'src/images/rakun-icon.png', // This path is relative to the root of the site.
+        icon: 'src/images/us/favicon.png', // This path is relative to the root of the site.
       },
     },
     {

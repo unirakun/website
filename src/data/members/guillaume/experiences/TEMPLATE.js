@@ -5,7 +5,7 @@ module.exports = {
     color: '#232323',
   },
   for: {
-    name: 'alakarteio',
+    name: 'unirakun',
     color: 'white',
   },
   dates: {

@@ -18,6 +18,7 @@ const InfoLink = styled(Link)`
 
 const Links = styled.div`
   width: 100%;
+  font-size: 0.7em;
   display: flex;
   justify-content: space-evenly;
 
@@ -59,7 +60,7 @@ const Members = ({ className }) => {
             <Avatar id={id} />
             <Info {...who} />
           </InfoLink>
-          <Links color={who.color}>
+          <Links>
             {who.socials.map(({ id, url }) => (
               <Social
                 key={id}
@@ -75,11 +76,15 @@ const Members = ({ className }) => {
 }
 
 export default styled(Members)`
-  display: flex;  
+  display: flex;
   flex-direction: row;
   justify-content: space-around;
   align-items: center;
   flex-wrap: wrap;
   margin: auto;
   min-height: 40em;
+
+  ${Social} {
+    color: ${({ theme }) => theme.light};
+  }
 `
