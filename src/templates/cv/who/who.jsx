@@ -15,7 +15,7 @@ const Who = ({ className, id, next, who, skills }) => {
   } = who
 
   return (
-    <Background className={className} gradient>
+    <Background className={className} secondary>
       <Avatar className="avatar" id={id} />
       <Link to={`/${next}`} className="other">
         <Avatar className="avatar" id={next} />

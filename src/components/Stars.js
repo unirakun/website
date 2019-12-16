@@ -5,7 +5,7 @@ export default styled(Stars).attrs(({ theme, name, children }) => ({
   name,
   value: children,
   starColor: theme.light,
-  emptyStarColor: '#280b4bce',
+  emptyStarColor: '#80808085',
   editing: false,
 }))`
 `
