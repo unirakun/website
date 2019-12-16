@@ -25,7 +25,7 @@ const Social = ({
 )
 
 export default styled(Social)`
-  color: white;
+  color: ${({ theme }) => theme.dark};
   font-size: 2em;
   outline: none;
   text-decoration: none;
