@@ -5,7 +5,12 @@ export default styled.div`
   max-width: 25em;
   margin: 1em;
   border-radius: .5em;
-  box-shadow: 0 0 0 1px #e2e9ed;
+  background-color: ${({ theme }) => theme.secondary.bg};
+  color: ${({ theme }) => theme.secondary.fg};
+
+  &:hover {
+    box-shadow: 0 0 20px -5px black;
+  }
 
   & > * {
     margin: 1rem 0;

@@ -3,12 +3,16 @@ import styled from 'styled-components'
 import { Image } from '.'
 
 const Name = styled.span`
-  color: #333;
+`
+
+const Firstname = styled.span`
+  font-weight: bold;
+  margin-right: 0.3em;
 `
 
 const Title = styled.div`
   font-size: 0.8em;
-  color: #6f808a;
+  color: ${({ theme }) => theme.grey};
 `
 
 const Info = ({
@@ -19,7 +23,9 @@ const Info = ({
 }) => (
     <div className={className}>
       <span>
-        {`${firstName} `}
+        <Firstname>
+          {firstName}
+        </Firstname>
         <Name>
           {name}
         </Name>
@@ -32,8 +38,8 @@ const Info = ({
 
 export default styled(Info)`
   font-size: 2em;
-  color: ${props => props.color};
-  
+  color: ${({ theme }) => theme.secondary.fg};
+
   & > * {
     margin: 1rem 0;
   }
