@@ -40,4 +40,5 @@ export default styled(Links)`
   width: 80%;
   max-width: 50em;
   bottom: 5%;
+  font-size: 2em;
 `

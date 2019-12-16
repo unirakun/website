@@ -1,7 +1,7 @@
 module.exports = {
   siteMetadata: {
     title: 'unirakun',
-    description: 'à deux, c’est mieux !',
+    description: 'Développeurs unis',
     author: '@unirakun',
     siteUrl: 'https://unirakun.fr',
   },

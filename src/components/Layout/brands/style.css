@@ -1,11 +1,12 @@
 @font-face {
   font-family: 'brands';
   src:
-    url('fonts/brands.ttf?wei1pp') format('truetype'),
-    url('fonts/brands.woff?wei1pp') format('woff'),
-    url('fonts/brands.svg?wei1pp#brands') format('svg');
+    url('fonts/brands.ttf?4mkek2') format('truetype'),
+    url('fonts/brands.woff?4mkek2') format('woff'),
+    url('fonts/brands.svg?4mkek2#brands') format('svg');
   font-weight: normal;
   font-style: normal;
+  font-display: block;
 }
 
 i {
@@ -23,12 +24,12 @@ i {
   -moz-osx-font-smoothing: grayscale;
 }
 
-.brand-github:before {
-  content: "\e903";
-}
 .brand-linkedin:before {
-  content: "\e904";
+  content: "\e900";
+}
+.brand-github:before {
+  content: "\e901";
 }
 .brand-twitter:before {
-  content: "\e906";
+  content: "\e902";
 }
