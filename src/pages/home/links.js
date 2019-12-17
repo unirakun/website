@@ -39,6 +39,6 @@ export default styled(Links)`
   position: absolute;
   width: 80%;
   max-width: 50em;
-  bottom: 5%;
+  bottom: 10%;
   font-size: 2em;
 `
