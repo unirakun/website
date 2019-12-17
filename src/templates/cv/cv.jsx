@@ -1,15 +1,34 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Layout, SEO } from '../../components'
-import { graphql } from 'gatsby'
+import { graphql, Link } from 'gatsby'
 import Who from './who'
 import Description from './description'
 import Experiences from './experiences'
+
+const GoToHome = styled(Link)`
+  position: absolute;
+  top: 1em;
+  left: 1em;
+  z-index: 1;
+  outline: none;
+  text-decoration: none;
+  color: white;
+  font-size: 2em;
+  
+  @media print {
+    display: none;
+  }
+`
 
 const CV = ({ className, data }) => (
   <Layout>
     <SEO title={`${data.members.who.firstName} ${data.members.who.name}`}/>
     <div className={className}>
+      <GoToHome to="/">
+        <i className="brand-left-arrow" />
+      </GoToHome>
+      
       <Who {...data.members} />
 
       <Description>
