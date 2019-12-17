@@ -1,11 +1,12 @@
-import React from 'react'
+import React, { useCallback } from 'react'
+import { useSpring, interpolate } from 'react-spring'
 import styled from 'styled-components'
 import { SEO, Layout, Background } from '../../components'
 import Members from './members'
 import Links from './links'
-import Logo from '../../images/us/unirakun.svg'
+import Banner from './animateBanner'
 
-const Banner = styled(Logo)`
+const StyledBanner = styled(Banner)`
   position: absolute;
   width: 80%;
   max-width: 50em;
@@ -21,15 +22,21 @@ const Header = styled(Background)`
   background-color: #ededed;
 `
 
-const Home = () => (
-  <Layout>
-    <SEO title='Team' />
-    <Header>
-      <Banner />
-      <Links />
-    </Header>
-    <Members />
-  </Layout>
-)
+const Home = () => {
+  const [{ st, xy }, set] = useSpring(() => ({ st: 0, xy: [0, 0] }))
+  const interpEye = interpolate([st, xy], (o, xy) => `translate(${xy[0] / 30},${xy[1] / 30 + o / 2})`)
+  const onMove = useCallback(({ clientX: x, clientY: y }) => set({ xy: [x - window.innerWidth / 1.5, y - window.innerHeight / 3] }), [set])
+
+  return (
+    <Layout>
+      <SEO title='Team' />
+      <Header onMouseMove={onMove}>
+        <StyledBanner interpEye={interpEye}/>
+        <Links />
+      </Header>
+      <Members />
+    </Layout>
+  )
+}
 
 export default Home
