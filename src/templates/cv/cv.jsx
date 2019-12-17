@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Avatar, Layout, SEO } from '../../components'
+import { Layout, SEO } from '../../components'
 import { graphql, Link } from 'gatsby'
 import Who from './who'
 import Description from './description'
