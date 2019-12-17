@@ -13,12 +13,9 @@ const GoToHome = styled(Link)`
   z-index: 1;
   outline: none;
   text-decoration: none;
-
-  & > .gotToHome {
-    width: 5em;
-    height: auto;
-  }
-
+  color: white;
+  font-size: 2em;
+  
   @media print {
     display: none;
   }
@@ -29,7 +26,7 @@ const CV = ({ className, data }) => (
     <SEO title={`${data.members.who.firstName} ${data.members.who.name}`}/>
     <div className={className}>
       <GoToHome to="/">
-        <Avatar className="gotToHome" id="unirakun" />
+        <i className="brand-left-arrow" />
       </GoToHome>
       
       <Who {...data.members} />
