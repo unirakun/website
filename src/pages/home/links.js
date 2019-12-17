@@ -38,7 +38,7 @@ export default styled(Links)`
   justify-content: space-between;
   position: absolute;
   width: 80%;
-  max-width: 50em;
-  bottom: 10%;
-  font-size: 2em;
+  max-width: 10em;
+  bottom: 5%;
+  font-size: 0.9em;
 `

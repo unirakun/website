@@ -8,7 +8,7 @@ import Logo from '../../images/us/unirakun.svg'
 const Banner = styled(Logo)`
   position: absolute;
   max-width: 80%;
-  margin-top: 10vh;
+  margin-top: 15vh;
   height: 60vh;
   user-select: none;
 `
