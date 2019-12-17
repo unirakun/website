@@ -7,8 +7,9 @@ import Logo from '../../images/us/unirakun.svg'
 
 const Banner = styled(Logo)`
   position: absolute;
-  width: 80%;
-  max-width: 50em;
+  max-width: 80%;
+  margin-top: 15vh;
+  height: 60vh;
   user-select: none;
 `
 
@@ -17,7 +18,7 @@ const Header = styled(Background)`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: end;
   background-color: #ededed;
 `
 
