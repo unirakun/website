@@ -24,7 +24,9 @@ const Header = styled(Background)`
 
 const Home = () => {
   const [{ st, xy }, set] = useSpring(() => ({ st: 0, xy: [0, 0] }))
-  const interpEye = interpolate([st, xy], (o, xy) => `translate(${xy[0] / 30},${xy[1] / 30 + o / 2})`)
+  const interpEye = interpolate([st, xy], (o, xy) => `translate(
+    ${Math.max(-15, Math.min(15, xy[0] / 30))},
+    ${Math.max(-10, Math.min(10, xy[1] / 30 + o / 2))})`)
   const onMove = useCallback(({ clientX: x, clientY: y }) => set({ xy: [x - window.innerWidth / 1.5, y - window.innerHeight / 3] }), [set])
 
   return (
