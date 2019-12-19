@@ -7,11 +7,10 @@ import Links from './links'
 import Banner from './animateBanner'
 
 const StyledBanner = styled(Banner)`
-  position: absolute;
   max-width: 80%;
-  margin-top: 15vh;
   height: 60vh;
   user-select: none;
+  margin-top: -3em;
 `
 
 const Header = styled(Background)`
@@ -19,7 +18,7 @@ const Header = styled(Background)`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: end;
+  justify-content: center;
   background-color: #ededed;
 `
 
