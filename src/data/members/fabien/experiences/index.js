@@ -1,6 +1,7 @@
 const chargeProjet = require('./chargeProjet')
 const concepteur = require('./concepteur')
-const darva = require('./darva')
+const darva2018 = require('./darva2018')
+const darva2019 = require('./darva2019')
 const developpeur = require('./developpeur')
 const ge = require('./ge')
 const ices = require('./ices')
@@ -14,7 +15,8 @@ const sparklane = require('./sparklane')
 module.exports = [
   chargeProjet,
   concepteur,
-  darva,
+  darva2018,
+  darva2019,
   developpeur,
   ge,
   ices,
