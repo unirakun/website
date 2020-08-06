@@ -6,20 +6,22 @@ const santeclair = require('./santeclair')
 const metroscopeArchi = require('./metroscopeArchi')
 const metroscopeDev = require('./metroscopeDev')
 const darvaFormation = require('./darvaFormation')
-const darva = require('./darva')
+const darvaBatchDatalake = require('./darvaBatchDatalake')
+const darvaUI = require('./darvaUI')
 const sparklane = require('./sparklane')
 
 module.exports = [
   cgi,
-  euriware,
-  siao,
   contentFlow,
-  santeclair,
-  sparklane,
+  darvaBatchDatalake,
+  darvaFormation,
+  darvaUI,
+  euriware,
   metroscopeArchi,
   metroscopeDev,
-  darvaFormation,
-  darva,
+  santeclair,
+  siao,
+  sparklane,
 ].sort((expA, expB) => {
   if (expA.dates.to === undefined) return 1
   return (expB.dates.to - expA.dates.to)
