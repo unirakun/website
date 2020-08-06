@@ -1,6 +1,8 @@
 const chargeProjet = require('./chargeProjet')
 const concepteur = require('./concepteur')
-const darva = require('./darva')
+const darvaExpertise = require('./darvaExpertise')
+const darvaBatchDatalake = require('./darvaBatchDatalake')
+const darvaUI = require('./darvaUI')
 const developpeur = require('./developpeur')
 const ge = require('./ge')
 const ices = require('./ices')
@@ -14,7 +16,9 @@ const sparklane = require('./sparklane')
 module.exports = [
   chargeProjet,
   concepteur,
-  darva,
+  darvaBatchDatalake,
+  darvaExpertise,
+  darvaUI,
   developpeur,
   ge,
   ices,

@@ -4,11 +4,11 @@ module.exports = [
     skills: [
       {
         name: 'Javascript',
-        note: 4,
+        note: 5,
       },
       {
         name: 'Typescript',
-        note: 2,
+        note: 3,
       },
     ],
   },
@@ -17,11 +17,11 @@ module.exports = [
     skills: [
       {
         name: 'ReactJS',
-        note: 4,
+        note: 5,
       },
       {
         name: 'Apollo',
-        note: 2,
+        note: 4,
       },
       {
         name: 'CycleJS',
@@ -42,7 +42,7 @@ module.exports = [
       },
       {
         name: 'GraphQL',
-        note: 3,
+        note: 4,
       },
       {
         name: 'Koa / Express',
@@ -63,11 +63,11 @@ module.exports = [
       },
       {
         name: 'Cypress',
-        note: 3,
+        note: 4,
       },
       {
         name: 'Jest',
-        note: 3,
+        note: 4,
       },
     ],
   },
@@ -76,7 +76,7 @@ module.exports = [
     skills: [
       {
         name: 'MongoDB',
-        note: 2,
+        note: 3,
       },
       {
         name: 'PostgreSQL',
