@@ -14,15 +14,17 @@ module.exports = {
   },
   informations: [
     { text: 'DARVA est une entreprise experte en solutions web et EDI (Echanges de Données Informatisés) basée à Niort et destiné à tous les acteurs professionnels de l\'assurance.' },
-    { text: 'Avec Guillaume CRESPEL, nous aidons le service BI à facilité l\'accès et la gouvernance des "données sinistres" pour les collaborateurs de DARVA ainsi que les acteurs des métiers de l\'assurance.' },
-    { text: 'Nous agissons sur le stockage des données des assureurs au travers d\'un batch NodeJS modulaire avec la problématique de traiter un flux de données important alimentant le datalake.' },
-    { text: 'Afin de maitriser la performance de ce batch, nous avons mis en place des métriques permettant de suivre la vélocité de nos algorithmes de désérialisation tout au long de nos développements.' },
-    { text: 'Une fois cette mission terminée, nous avons réalisé le POC d\'une interface graphique pour exploiter le datalake.'},
+    { text: 'DARVA souhaitant s\'appuyer de plus en plus sur la masse de données qu\'ils traitent, ils leur est nécessaire d\'intégrer celles-ci dans un datalake accessible à tous les services.' },
+    { text: 'Dans ce but, nous avons agis sur le stockage des données liées aux sinistres au travers d\'un batch NodeJS. Il se doit d\'être modulaire, réutilisable, et très performant puisque plusieurs gigaoctets de données doivent être traitées dans une courte fenêtre de temps.' },
+    { text: 'Grâce aux streams NodeJS les données sont décodées, désérialisées, puis enregistrées en base de données MongoDB au fil de l\'eau.' },
+    { text: 'Afin de maitriser la performance du batch, nous avons mis en place des métriques permettant de suivre la vélocité de nos algorithmes tout au long de nos développements.' },
+    { text: 'Une fois cette mission terminée, nous avons réalisé le POC d\'une interface graphique permettant de mieux comprendre la structure des données concernées.'},
     {
       text: 'Missions :',
       children: [
-        { text: 'Développement du Batch de désérialisation et d\'alimentation du datalake' },
+        { text: 'Développement d\'un Batch d\'intégration de données' },
         { text: 'Algorithme et métriques de performance' },
+        { text: 'Passage de connaissances aux équipes internes' },
         { text: 'Proposition d\'un POC d\'une interface graphique de naviguation dans la structure des données' },
       ],
     },
