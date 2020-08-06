@@ -1,1 +1,1 @@
-{"componentChunkName":"component---src-pages-home-links-js","path":"/home/links/","result":{"data":{"allSocials":{"edges":[{"node":{"id":"twitter","url":"https://twitter.com/uniRakun"}},{"node":{"id":"github","url":"https://github.com/unirakun"}},{"node":{"id":"linkedin","url":"https://www.linkedin.com/company/unirakun"}}]}},"pageContext":{"isCreatedByStatefulCreatePages":true}}}
+{"componentChunkName":"component---src-pages-home-links-js","path":"/home/links/","result":{"pageContext":{}},"staticQueryHashes":["1356607644","2322628687","3649515864","904839359"]}
