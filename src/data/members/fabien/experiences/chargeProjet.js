@@ -1,5 +1,5 @@
 module.exports = {
-  title: 'Chargé de projet',
+  title: 'Chargé de projet technique (Java/AngularJS)',
   for: {
     name: 'CGI',
     color: 'white',
@@ -12,8 +12,9 @@ module.exports = {
     {
       text: 'Missions principales : ',
       children: [
-        { text: 'Architecte et PO d\'une solution interne de gestion de projet au sens large (KPI, imputations, gestion des congés, etc)' },
+        { text: 'Architecte et PO d\'une solution interne de gestion de projet au sens large (KPI, imputations, gestion des congés, etc) (Java et AngularJS)' },
         { text: 'Gestion d\'équipe(s)' },
+        { text: 'Support technique (Java/AngularJS) à l\'équipe' },
         { text: 'Planification, suivi et coaching' },
         { text: 'Chiffrage, macro-chiffrage, maintient d\'un plan de charge cohérent' },
         { text: 'Création de KPI et reporting à mon directeur de projet' },
