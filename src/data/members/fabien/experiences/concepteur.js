@@ -1,5 +1,5 @@
 module.exports = {
-  title: 'Concepteur',
+  title: 'Concepteur fonctionnel et technique',
   for: {
     name: 'CGI',
     color: 'white',
@@ -17,6 +17,7 @@ module.exports = {
       children: [
         { text: 'OSB (Oracle Service Bus)' },
         { text: 'J2EE' },
+        { text: 'JSP + Javascript' },
         { text: 'Hibernate' },
         { text: 'Orika' },
         { text: 'Junit' },
