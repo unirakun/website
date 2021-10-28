@@ -43,7 +43,7 @@ jobs:
 
               cp -a public/. out/.
 
-              mkdir -p out/.circleci && cp -a .circleci/. out/.circleci/.
+              mkdir -p out/.circleci && cp -a .circleci/. out/.circleci/. && cp -a .well-known out/.well-known
               cd out
               echo $CNAME > CNAME
 

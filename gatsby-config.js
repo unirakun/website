@@ -19,8 +19,8 @@ module.exports = {
     {
       resolve: 'gatsby-plugin-manifest',
       options: {
-        name: 'rakun',
-        short_name: 'starter',
+        name: 'unirakun - website',
+        short_name: 'unirakun',
         start_url: '/',
         background_color: '#fefefe',
         theme_color: '#fefefe',
