@@ -31,9 +31,7 @@ const CV = ({ className, data }) => (
       
       <Who {...data.members} />
 
-      <Description>
-        {data.members.description}
-      </Description>
+      <Description dangerouslySetInnerHTML={{__html: data.members.description}} />
 
       <Experiences>
         {data.members.experiences}

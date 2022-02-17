@@ -10,7 +10,7 @@ module.exports = {
   },
   dates: {
     from: Date.UTC(2020, 0),
-    to: Date.now(),
+    to: Date.UTC(2022, 0),
   },
   informations: [
     { text: 'DARVA est une entreprise experte en solutions web et EDI (Echanges de Données Informatisés) basée à Niort et destiné à tous les acteurs professionnels de l\'assurance.' },
