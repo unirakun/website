@@ -5,7 +5,7 @@ jobs:
       ignore:
         - gh-pages
     docker:
-      - image: circleci/node:20
+      - image: cimg/node:21.6.0
     working_directory: ~/repo
     environment:
       - SOURCE_BRANCH: master
