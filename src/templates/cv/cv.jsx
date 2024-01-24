@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Layout, SEO } from '../../components'
+import { Layout, Seo } from '../../components'
 import { graphql, Link } from 'gatsby'
 import Who from './who'
 import Description from './description'
@@ -23,7 +23,7 @@ const GoToHome = styled(Link)`
 
 const CV = ({ className, data }) => (
   <Layout>
-    <SEO title={`${data.members.who.firstName} ${data.members.who.name}`}/>
+    <Seo title={`${data.members.who.firstName} ${data.members.who.name}`}/>
     <div className={className}>
       <GoToHome to="/">
         <i className="brand-left-arrow" />

@@ -1,4 +1,5 @@
-import React from 'react'
-import Home from './home'
+import React from "react"
+import Home from "./home"
+const lazyHome = () => <Home />
 
-export default () => (<Home />)
+export default lazyHome

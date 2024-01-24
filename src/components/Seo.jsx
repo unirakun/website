@@ -3,32 +3,32 @@ import PropTypes from "prop-types"
 import Helmet from "react-helmet"
 import { useStaticQuery, graphql } from "gatsby"
 
-function SEO({ description, lang, meta, title }) {
-  const { site, allImageSharp } = useStaticQuery(
-    graphql`
-      query {
-        allImageSharp {
-          edges {
-            node {
-              fluid(maxWidth: 300) {
-                ...GatsbyImageSharpFluid
-              }
+function Seo({ description, lang, meta, title }) {
+  const { site, allImageSharp } = useStaticQuery(graphql`
+    query {
+      allImageSharp {
+        edges {
+          node {
+            fluid(maxWidth: 300) {
+              ...GatsbyImageSharpFluid
             }
           }
         }
-        site {
-          siteMetadata {
-            title
-            description
-            author
-          }
+      }
+      site {
+        siteMetadata {
+          title
+          description
+          author
         }
       }
-    `
-  )
+    }
+  `)
 
   const metaDescription = description || site.siteMetadata.description
-  const image = allImageSharp.edges.find(e => e.node.fluid.src.split('/').pop() === 'banner.png').node.fluid.src
+  const image = allImageSharp.edges.find(
+    (e) => e.node.fluid.src.split("/").pop() === "banner.png"
+  ).node.fluid.src
 
   return (
     <Helmet
@@ -83,17 +83,17 @@ function SEO({ description, lang, meta, title }) {
   )
 }
 
-SEO.defaultProps = {
+Seo.defaultProps = {
   lang: `en`,
   meta: [],
   description: ``,
 }
 
-SEO.propTypes = {
+Seo.propTypes = {
   description: PropTypes.string,
   lang: PropTypes.string,
   meta: PropTypes.arrayOf(PropTypes.object),
   title: PropTypes.string.isRequired,
 }
 
-export default SEO
+export default Seo
