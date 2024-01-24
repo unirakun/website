@@ -1,3 +1,4 @@
+const bereal = require('./bereal')
 const chargeProjet = require('./chargeProjet')
 const concepteur = require('./concepteur')
 const darvaExpertise = require('./darvaExpertise')
@@ -14,6 +15,7 @@ const santeclair = require('./santeclair')
 const sparklane = require('./sparklane')
 
 module.exports = [
+  bereal,
   chargeProjet,
   concepteur,
   darvaBatchDatalake,
