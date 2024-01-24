@@ -9,6 +9,7 @@ const darvaFormation = require('./darvaFormation')
 const darvaBatchDatalake = require('./darvaBatchDatalake')
 const darvaUI = require('./darvaUI')
 const sparklane = require('./sparklane')
+const sgmarket = require('./sgmarket')
 
 module.exports = [
   cgi,
@@ -22,6 +23,7 @@ module.exports = [
   santeclair,
   siao,
   sparklane,
+  sgmarket,
 ].sort((expA, expB) => {
   if (expA.dates.to === undefined) return 1
   return (expB.dates.to - expA.dates.to)

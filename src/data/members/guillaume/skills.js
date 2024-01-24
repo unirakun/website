@@ -8,7 +8,7 @@ module.exports = [
       },
       {
         name: 'Typescript',
-        note: 3,
+        note: 5,
       },
     ],
   },
@@ -29,6 +29,10 @@ module.exports = [
       },
       {
         name: 'Redux',
+        note: 5,
+      },
+      {
+        name: 'RTKQuery',
         note: 5,
       },
     ],
@@ -58,8 +62,12 @@ module.exports = [
     name: 'tools',
     skills: [
       {
-        name: 'Webpack',
+        name: 'ViteJS',
         note: 3,
+      },
+      {
+        name: 'CodeceptJS',
+        note: 5,
       },
       {
         name: 'Cypress',
@@ -80,7 +88,7 @@ module.exports = [
       },
       {
         name: 'PostgreSQL',
-        note: 2,
+        note: 3,
       },
     ],
   },
@@ -97,7 +105,19 @@ module.exports = [
       },
       {
         name: 'Kubernetes',
-        note: 1,
+        note: 2,
+      },
+      {
+        name: 'Azure',
+        note: 3,
+      },
+      {
+        name: 'AWS',
+        note: 3,
+      },
+      {
+        name: 'GCP',
+        note: 3,
       },
     ],
   },
