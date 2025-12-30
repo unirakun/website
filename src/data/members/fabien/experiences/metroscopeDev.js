@@ -1,5 +1,5 @@
 module.exports = {
-  title: 'Développeur frontend',
+  title: 'Frontend Developer',
   client: {
     name: 'Metroscope',
     color: '#0052a9',
@@ -13,19 +13,19 @@ module.exports = {
     to: Date.UTC(2019, 2),
   },
   informations: [
-    { text: 'Metroscope est une startup, filiale du groupe EDF, composée d’une dizaine de personnes. Le Metroscope permet de déterminer rapidement les anomalies survenant sur les systèmes de refroidissement des centrales nucléaires.' },
-    { text: 'Avec Guillaume CRESPEL, nous avons mis en place et nous avons continué à développer le produit Metroscope sur la partie Front-End, à distance. Une fois celle-ci sécurisée et en production nous avons formé nos successeurs afin qu’ils puissent être autonomes sur la stack mise en place.' },
+    { text: 'Metroscope is a startup, subsidiary of the EDF group, composed of about ten people. Metroscope allows rapid determination of anomalies occurring in nuclear power plant cooling systems.' },
+    { text: 'With Guillaume CRESPEL, we implemented and continued to develop the Metroscope product on the Front-End side, remotely. Once it was secured and in production, we trained our successors so they could be autonomous on the implemented stack.' },
     {
-      text: 'Missions :',
+      text: 'Missions:',
       children: [
-        { text: 'Développement Front-End' },
-        { text: 'Atelier UX / UI' },
-        { text: 'Aide au recrutement : entretiens et choix des successeurs' },
-        { text: 'Formation des successeurs' },
+        { text: 'Front-End Development' },
+        { text: 'UX / UI Workshop' },
+        { text: 'Recruitment assistance: interviews and selection of successors' },
+        { text: 'Training of successors' },
       ],
     },
     {
-      text: 'Technologies utilisées : ',
+      text: 'Technologies used:',
       children: [
         { text: 'ReactJS / Redux / k-ramel / react-vis / D3.js / JSS' },
         { text: 'Java 8 / SpringBoot' },

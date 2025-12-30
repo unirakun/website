@@ -1,4 +1,5 @@
-module.exports = `Fabien est un <b>développeur fullstack</b> qui s'intéresse à tout, expert <b>Javascript.</b>  
-Il est présent sur Youtube, et sur github où ses projets suivent tous une même phylosophie&nbsp;:&nbsp;tendre vers le <b>code le plus propre</b> possible et être <b>KISS.</b>
-Travailler avec Fabien c'est l'assurance d'un projet qui avance.
+module.exports = `Fabien is a <b>fullstack developer</b> interested in everything, <b>Javascript</b> expert.
+He is present on Youtube and Github where all his projects follow the same philosophy&nbsp;:&nbsp;aiming for the <b>cleanest code</b> possible and being <b>KISS.</b>
+He worked at <b>BeReal</b> during their high growth phase, where he designed and built critical microservices serving <b>millions of requests per second</b>, including the users microservice handling <b>9M users/s</b>.
+Working with Fabien means the assurance of a project that moves forward.
 `

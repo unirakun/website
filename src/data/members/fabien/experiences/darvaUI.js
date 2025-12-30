@@ -1,5 +1,5 @@
 module.exports = {
-  title: 'Lead Développeur Frontend',
+  title: 'Lead Frontend Developer',
   client: {
     name: 'DARVA',
     color: '#748694',
@@ -13,22 +13,22 @@ module.exports = {
     to: Date.UTC(2022, 0),
   },
   informations: [
-    { text: 'DARVA est une entreprise experte en solutions web et EDI (Echanges de Données Informatisés) basée à Niort et destiné à tous les acteurs professionnels de l\'assurance.' },
-    { text: 'Avec Nicolas REMISE (interne DARVA) et Guillaume CRESPEL, nous avons aidé le service BI à faciliter l\'accès et la gouvernance des "données sinistres" pour les collaborateurs de DARVA ainsi que les acteurs des métiers de l\'assurance.' },
-    { text: 'Nous simplifions la visualisation et l\'édition des structures de données assureurs grâce à une nouvelle interface graphique. Le but est de remplacer un vieil outil d\'édition, et de permettre à tous les collaborateurs de reprendre possession de la connaissance liée à ces données.' },
-    { text: 'Pour faciliter l\'accès à cette connaissance nous nous devions de proposer une interface graphique ergonomique, réactive, et compréhensible. Nous nous étions appuyés sur des représentations graphiques bien connues comme des arbre (treeview) ou des graphes (radial). Et pour l\'édition, quand cela semblait opportun, nous avons utilisé du drag\'n\'drop. Le tout en utilisant l’écosystème ReactJS.' },
+    { text: 'DARVA is a company expert in web solutions and EDI (Electronic Data Interchange) based in Niort and serving all professional insurance actors.' },
+    { text: 'With Nicolas REMISE (internal DARVA) and Guillaume CRESPEL, we helped the BI service facilitate access and governance of "claims data" for DARVA employees as well as insurance industry actors.' },
+    { text: 'We simplified the visualization and editing of insurance data structures through a new graphical interface. The goal was to replace an old editing tool, and allow all employees to regain ownership of the knowledge related to this data.' },
+    { text: 'To facilitate access to this knowledge, we had to offer an ergonomic, responsive, and understandable graphical interface. We relied on well-known graphical representations such as trees (treeview) or graphs (radial). And for editing, when appropriate, we used drag\'n\'drop. All using the ReactJS ecosystem.' },
     {
-      text: 'Missions :',
+      text: 'Missions:',
       children: [
-        { text: 'Atelier UX / UI' },
-        { text: 'Développement Front-End de visualisation graphique du datalake' },
-        { text: 'Développement Front-End d\'édition du datalake' },
+        { text: 'UX / UI Workshop' },
+        { text: 'Front-End development for graphical visualization of the datalake' },
+        { text: 'Front-End development for datalake editing' },
       ],
     },
     {
-      text: 'Technologies utilisées : ',
+      text: 'Technologies used:',
       children: [
-        { text: 'ReactJS, D3 et Layout homemade' },
+        { text: 'ReactJS, D3 and homemade Layout' },
         { text: 'NodeJS, Typescript, Apollo GraphQL, NestJS, Mongoose' },
         { text: 'Babel, Prettier, ESLint' },
         { text: 'Storybook, Cypress, Jest' },
