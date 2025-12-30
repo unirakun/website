@@ -5,16 +5,16 @@ import { Seo, Layout, Background } from "../../components"
 import Members from "./members"
 import Links from "./links"
 import Banner from "./animateBanner"
+import Projects from "./projects"
 
 const StyledBanner = styled(Banner)`
   max-width: 80%;
-  height: 60vh;
+  max-height: 80%;
   user-select: none;
-  margin-top: -3em;
 `
 
 const Header = styled(Background)`
-  height: 100vh;
+  height: 60vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -43,6 +43,7 @@ const Home = () => {
         <StyledBanner interpEye={interpEye} />
         <Links />
       </Header>
+      <Projects />
       <Members />
     </Layout>
   )

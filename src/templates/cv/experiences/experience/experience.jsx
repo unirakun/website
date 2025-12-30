@@ -34,7 +34,7 @@ const Experience = (props) => {
           ? (
             <Fragment>
               {client.name}
-              {', pour le compte de '}
+              {', on behalf of '}
               {props.for.name}
             </Fragment>
           )

@@ -6,7 +6,7 @@ import getId from './getExperienceId'
 
 const Experiences = ({ className, children = [] }) => (
   <div className={className}>
-    <h1>Expériences</h1>
+    <h1>Some Experiences</h1>
 
     {/* TODO: construct id here ? Maybe in API... */}
 

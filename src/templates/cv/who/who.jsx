@@ -27,8 +27,8 @@ const Who = ({ className, id, next, who, skills }) => {
       </div>
 
       <div className="age-experience">
-        <Age from={birthday} suffix=" ans - " />
-        <Age from={worksSince} suffix=" ans d'expérience" />
+        <Age from={birthday} suffix=" years old - " />
+        <Age from={worksSince} suffix=" years of experience" />
       </div>
 
       <div className="socials">

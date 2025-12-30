@@ -8,29 +8,32 @@ const Name = styled.span`
 const Firstname = styled.span`
   font-weight: bold;
   margin-right: 0.3em;
+  color: ${({ color, theme }) => color || theme.primary};
 `
 
 const Title = styled.div`
   font-size: 0.8em;
-  color: ${({ theme }) => theme.grey};
+  color: ${({ color, theme }) => color || theme.grey};
 `
 
 const Info = ({
   className,
   firstName,
+  firstNameColor,
   name,
   title,
+  titleColor
 }) => (
     <div className={className}>
       <span>
-        <Firstname>
+        <Firstname color={firstNameColor}>
           {firstName}
         </Firstname>
         <Name>
           {name}
         </Name>
       </span>
-      <Title>
+      <Title color={titleColor}>
         {title}
       </Title>
     </div>

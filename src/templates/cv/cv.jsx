@@ -94,9 +94,6 @@ export const query = graphql`
         }
         informations {
           children {
-            children {
-              text
-            }
             text
           }
           text

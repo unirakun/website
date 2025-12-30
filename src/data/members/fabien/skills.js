@@ -3,16 +3,54 @@ module.exports = [
     name: 'langages',
     skills: [
       {
-        name: 'Javascript',
+        name: 'Go',
         note: 5,
       },
       {
-        name: 'Typescript',
+        name: 'Rust',
         note: 3,
       },
       {
-        name: 'Rust',
-        note: 1,
+        name: 'Typescript',
+        note: 5,
+      },
+    ],
+  },
+  {
+    name: 'database',
+    skills: [
+      {
+        name: 'Spanner',
+        note: 5,
+      },
+      {
+        name: 'Redis',
+        note: 5,
+      },
+      {
+        name: 'PostgreSQL',
+        note: 4,
+      },
+      {
+        name: 'MongoDB',
+        note: 3,
+      },
+    ],
+  },
+  {
+    name: 'architecture',
+    skills: [
+      {
+        name: 'Kubernetes',
+        note: 4,
+      },
+      {
+        name: 'Docker',
+        note: 5,
+      },
+      {
+        name: 'GNU/Linux',
+        note: 4,
       },
     ],
   },
@@ -24,88 +62,29 @@ module.exports = [
         note: 5,
       },
       {
-        name: 'Apollo',
-        note: 3,
-      },
-      {
-        name: 'CycleJS',
-        note: 4,
-      },
-      {
         name: 'Redux',
         note: 5,
       },
-    ],
-  },
-  {
-    name: 'backend',
-    skills: [
       {
-        name: 'NodeJS',
-        note: 5,
-      },
-      {
-        name: 'GraphQL',
-        note: 3,
-      },
-      {
-        name: 'Koa / Express',
-        note: 5,
-      },
-      {
-        name: 'Socket.io',
-        note: 5,
-      },
-    ],
-  },
-  {
-    name: 'tools',
-    skills: [
-      {
-        name: 'Webpack',
+        name: 'Vite',
         note: 4,
       },
       {
-        name: 'Cypress',
-        note: 3,
-      },
-      {
-        name: 'Jest',
-        note: 3,
+        name: 'NextJS',
+        note: 4,
       },
     ],
   },
   {
-    name: 'database',
+    name: 'Cloud providers',
     skills: [
       {
-        name: 'MongoDB',
-        note: 3,
-      },
-      {
-        name: 'PostgreSQL',
-        note: 3,
-      },
-      {
-        name: 'Redis',
-        note: 2,
-      },
-    ],
-  },
-  {
-    name: 'architecture',
-    skills: [
-      {
-        name: 'Docker',
+        name: 'GCP',
         note: 4,
       },
       {
-        name: 'GNU/Linux',
-        note: 4,
-      },
-      {
-        name: 'Kubernetes',
-        note: 2,
+        name: 'AWS',
+        note: 3,
       },
     ],
   },

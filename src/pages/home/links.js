@@ -35,9 +35,9 @@ const Links = ({ className }) => {
 export default styled(Links)`
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  position: absolute;
+  justify-content: space-around;
   width: 10em;
-  bottom: 5%;
   font-size: 0.9em;
+  justify-self: end;
+  margin-top: 2em;
 `
