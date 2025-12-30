@@ -1,5 +1,5 @@
-const members = require('./members')
-const socials = require('./socials')
+const members = require("./members")
+const socials = require("./socials")
 
 module.exports = {
   members,

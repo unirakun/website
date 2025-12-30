@@ -1,7 +1,7 @@
-import React from 'react'
-import styled from 'styled-components'
-import AnchorLink from 'react-anchor-link-smooth-scroll'
-import getId from '../getExperienceId' // TODO: find a way to store this in graphql ? If we can't find a way -> context ?
+import React from "react"
+import styled from "styled-components"
+import AnchorLink from "react-anchor-link-smooth-scroll"
+import getId from "../getExperienceId" // TODO: find a way to store this in graphql ? If we can't find a way -> context ?
 
 const Summary = ({ className, children, columns }) => {
   const arrays = []
@@ -16,18 +16,16 @@ const Summary = ({ className, children, columns }) => {
       <div className="shadow top" />
       <div className="background" />
 
-      {arrays.map(array => (
+      {arrays.map((array) => (
         <ul key={getId(array)}>
-          {array
-            .map(experience => (
-              <li key={getId(experience)}>
-                <AnchorLink href={getId.withHash(experience)} offset="100">
-                  {experience.title}
-                  <div>{(experience.client || experience.for).name}</div>
-                </AnchorLink>
-              </li>
-            ))
-          }
+          {array.map((experience) => (
+            <li key={getId(experience)}>
+              <AnchorLink href={getId.withHash(experience)} offset="100">
+                {experience.title}
+                <div>{(experience.client || experience.for).name}</div>
+              </AnchorLink>
+            </li>
+          ))}
         </ul>
       ))}
 
@@ -93,7 +91,7 @@ export default styled(Summary)`
         }
 
         & > div {
-          font-size: .8em;
+          font-size: 0.8em;
           color: #9a9a9a;
           margin-top: 0.5em;
         }

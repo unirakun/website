@@ -1,18 +1,11 @@
-import React from 'react'
-import styled from 'styled-components'
-import { Link } from 'gatsby'
-import { Avatar, Background, Age, Social } from '../../../components'
-import Skills from './skills'
+import React from "react"
+import styled from "styled-components"
+import { Link } from "gatsby"
+import { Avatar, Background, Age, Social } from "../../../components"
+import Skills from "./skills"
 
 const Who = ({ className, id, next, who, skills }) => {
-  const {
-    name,
-    firstName,
-    what,
-    birthday,
-    worksSince,
-    socials,
-  } = who
+  const { name, firstName, what, birthday, worksSince, socials } = who
 
   return (
     <Background className={className} secondary>
@@ -32,11 +25,12 @@ const Who = ({ className, id, next, who, skills }) => {
       </div>
 
       <div className="socials">
-        {socials.map(social => <Social key={social.id} {...social} text />)}
+        {socials.map((social) => (
+          <Social key={social.id} {...social} text />
+        ))}
       </div>
 
       <Skills>{skills}</Skills>
-
     </Background>
   )
 }

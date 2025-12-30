@@ -1,7 +1,7 @@
-import React from 'react'
-import { useStaticQuery, graphql, Link } from 'gatsby'
-import styled from 'styled-components'
-import { Social, Avatar , Card, Info} from '../../components'
+import React from "react"
+import { useStaticQuery, graphql, Link } from "gatsby"
+import styled from "styled-components"
+import { Social, Avatar, Card, Info } from "../../components"
 
 const InfoLink = styled(Link)`
   display: flex;
@@ -23,50 +23,44 @@ const Links = styled.div`
   justify-content: space-evenly;
 
   ${Social} {
-    color: ${props => props.color}
+    color: ${(props) => props.color};
   }
 `
 
 const Members = ({ className }) => {
-  const { allMembers } = useStaticQuery(
-    graphql`
-      {
-        allMembers {
-          edges {
-            node {
-              id
-              who {
-                name
-                firstName
-                title
-                color
-                socials {
-                  id
-                  url
-                }
+  const { allMembers } = useStaticQuery(graphql`
+    {
+      allMembers {
+        edges {
+          node {
+            id
+            who {
+              name
+              firstName
+              title
+              color
+              socials {
+                id
+                url
               }
             }
           }
         }
       }
-    `
-  )
+    }
+  `)
 
   return (
     <div className={className}>
       {allMembers.edges.map(({ node: { id, who } }) => (
-        <Card key={id} >
+        <Card key={id}>
           <InfoLink to={`/${id}`}>
             <Avatar id={id} />
             <Info {...who} />
           </InfoLink>
           <Links>
             {who.socials.map(({ id, url }) => (
-              <Social
-                key={id}
-                id={id}
-                url={url}
-              />
+              <Social key={id} id={id} url={url} />
             ))}
           </Links>
         </Card>
@@ -83,8 +77,7 @@ export default styled(Members)`
   flex-wrap: wrap;
   margin: auto;
   min-height: 40em;
-    background-color: #ededed;
-
+  background-color: #ededed;
 
   ${Social} {
     color: ${({ theme }) => theme.light};

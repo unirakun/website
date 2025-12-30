@@ -1,14 +1,14 @@
-export { default as Seo } from './Seo'
-export { default as Layout } from './Layout'
-export { default as Image } from './Image'
-export { default as Social } from './Social'
-export { default as Card } from './Card'
-export { default as Info } from './Info'
+export { default as Seo } from "./Seo"
+export { default as Layout } from "./Layout"
+export { default as Image } from "./Image"
+export { default as Social } from "./Social"
+export { default as Card } from "./Card"
+export { default as Info } from "./Info"
 
-export { default as Age } from './Age'
-export { default as Avatar } from './Avatar'
-export { default as Background } from './Background'
-export { default as Contact } from './Contact'
-export { default as Rating } from './Rating'
-export { default as RatingsGroup } from './RatingsGroup'
-export { default as Stars } from './Stars'
+export { default as Age } from "./Age"
+export { default as Avatar } from "./Avatar"
+export { default as Background } from "./Background"
+export { default as Contact } from "./Contact"
+export { default as Rating } from "./Rating"
+export { default as RatingsGroup } from "./RatingsGroup"
+export { default as Stars } from "./Stars"

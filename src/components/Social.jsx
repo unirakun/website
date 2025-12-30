@@ -1,23 +1,15 @@
 import React from "react"
-import styled from 'styled-components'
-import { OutboundLink } from 'gatsby-plugin-google-analytics'
+import styled from "styled-components"
+import { OutboundLink } from "gatsby-plugin-google-analytics"
 
-const getPseudo = (text = '') => text.split('/').pop()
+const getPseudo = (text = "") => text.split("/").pop()
 
-const Social = ({
-  className,
-  id,
-  url,
-  text,
-}) => (
-  <OutboundLink
-    className={className}
-    href={url}
-  >
+const Social = ({ className, id, url, text }) => (
+  <OutboundLink className={className} href={url}>
     <i className={`brand-${id}`} />
     {text && (
       <span>
-        {(id === 'twitter') && '@'}
+        {id === "twitter" && "@"}
         {getPseudo(url)}
       </span>
     )}

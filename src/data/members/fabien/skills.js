@@ -1,89 +1,89 @@
 module.exports = [
   {
-    name: 'langages',
+    name: "langages",
     skills: [
       {
-        name: 'Go',
+        name: "Go",
         note: 5,
       },
       {
-        name: 'Rust',
+        name: "Rust",
         note: 3,
       },
       {
-        name: 'Typescript',
+        name: "Typescript",
         note: 5,
       },
     ],
   },
   {
-    name: 'database',
+    name: "database",
     skills: [
       {
-        name: 'Spanner',
+        name: "Spanner",
         note: 5,
       },
       {
-        name: 'Redis',
+        name: "Redis",
         note: 5,
       },
       {
-        name: 'PostgreSQL',
+        name: "PostgreSQL",
         note: 4,
       },
       {
-        name: 'MongoDB',
+        name: "MongoDB",
         note: 3,
       },
     ],
   },
   {
-    name: 'architecture',
+    name: "architecture",
     skills: [
       {
-        name: 'Kubernetes',
+        name: "Kubernetes",
         note: 4,
       },
       {
-        name: 'Docker',
+        name: "Docker",
         note: 5,
       },
       {
-        name: 'GNU/Linux',
+        name: "GNU/Linux",
         note: 4,
       },
     ],
   },
   {
-    name: 'frontend',
+    name: "frontend",
     skills: [
       {
-        name: 'ReactJS',
+        name: "ReactJS",
         note: 5,
       },
       {
-        name: 'Redux',
+        name: "Redux",
         note: 5,
       },
       {
-        name: 'Vite',
+        name: "Vite",
         note: 4,
       },
       {
-        name: 'NextJS',
+        name: "NextJS",
         note: 4,
       },
     ],
   },
   {
-    name: 'Cloud providers',
+    name: "Cloud providers",
     skills: [
       {
-        name: 'GCP',
+        name: "GCP",
         note: 4,
       },
       {
-        name: 'AWS',
+        name: "AWS",
         note: 3,
       },
     ],

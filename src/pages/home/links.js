@@ -1,32 +1,26 @@
-import React from 'react'
-import styled from 'styled-components'
-import { useStaticQuery, graphql } from 'gatsby'
-import { Social } from '../../components'
+import React from "react"
+import styled from "styled-components"
+import { useStaticQuery, graphql } from "gatsby"
+import { Social } from "../../components"
 
 const Links = ({ className }) => {
-  const { allSocials } = useStaticQuery(
-    graphql`
-      query {
-        allSocials {
-          edges {
-            node {
-              id
-              url
-            }
+  const { allSocials } = useStaticQuery(graphql`
+    query {
+      allSocials {
+        edges {
+          node {
+            id
+            url
           }
         }
       }
-    `
-  )
+    }
+  `)
 
   return (
     <div className={className}>
       {allSocials.edges.map(({ node: { id, url } }) => (
-        <Social
-          key={id}
-          url={url}
-          id={id}
-        />
+        <Social key={id} url={url} id={id} />
       ))}
     </div>
   )

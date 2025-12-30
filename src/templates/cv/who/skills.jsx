@@ -1,10 +1,12 @@
-import React from 'react'
-import styled from 'styled-components'
-import { RatingsGroup } from '../../../components'
+import React from "react"
+import styled from "styled-components"
+import { RatingsGroup } from "../../../components"
 
 const Skills = ({ className, children }) => (
   <div className={className}>
-    {children.map(({ name, skills }) => <RatingsGroup key={name} skills={skills} />)}
+    {children.map(({ name, skills }) => (
+      <RatingsGroup key={name} skills={skills} />
+    ))}
   </div>
 )
 

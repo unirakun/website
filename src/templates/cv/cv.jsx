@@ -1,10 +1,10 @@
-import React from 'react'
-import styled from 'styled-components'
-import { Layout, Seo } from '../../components'
-import { graphql, Link } from 'gatsby'
-import Who from './who'
-import Description from './description'
-import Experiences from './experiences'
+import React from "react"
+import styled from "styled-components"
+import { Layout, Seo } from "../../components"
+import { graphql, Link } from "gatsby"
+import Who from "./who"
+import Description from "./description"
+import Experiences from "./experiences"
 
 const GoToHome = styled(Link)`
   position: absolute;
@@ -15,7 +15,7 @@ const GoToHome = styled(Link)`
   text-decoration: none;
   color: white;
   font-size: 2em;
-  
+
   @media print {
     display: none;
   }
@@ -23,19 +23,19 @@ const GoToHome = styled(Link)`
 
 const CV = ({ className, data }) => (
   <Layout>
-    <Seo title={`${data.members.who.firstName} ${data.members.who.name}`}/>
+    <Seo title={`${data.members.who.firstName} ${data.members.who.name}`} />
     <div className={className}>
       <GoToHome to="/">
         <i className="brand-left-arrow" />
       </GoToHome>
-      
+
       <Who {...data.members} />
 
-      <Description dangerouslySetInnerHTML={{__html: data.members.description}} />
+      <Description
+        dangerouslySetInnerHTML={{ __html: data.members.description }}
+      />
 
-      <Experiences>
-        {data.members.experiences}
-      </Experiences>
+      <Experiences>{data.members.experiences}</Experiences>
     </div>
   </Layout>
 )
@@ -55,8 +55,8 @@ export default styled(CV)`
 `
 
 export const query = graphql`
-  query($id: String!) {
-    members(id: {eq: $id}) {
+  query ($id: String!) {
+    members(id: { eq: $id }) {
       id
       next
       who {

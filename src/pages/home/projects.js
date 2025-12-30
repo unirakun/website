@@ -1,7 +1,7 @@
-import React from 'react'
-import { Link } from 'gatsby'
-import styled from 'styled-components'
-import { Social, Avatar } from '../../components'
+import React from "react"
+import { Link } from "gatsby"
+import styled from "styled-components"
+import { Social, Avatar } from "../../components"
 
 const InfoLink = styled(Link)`
   display: flex;
@@ -14,12 +14,12 @@ const InfoLink = styled(Link)`
     margin: 1rem 0;
     text-align: center;
   }
-  `
-  
-const Card= styled.div`
+`
+
+const Card = styled.div`
   min-width: 20em;
   box-shadow: 0 0 15px -5px ${({ theme }) => theme.fg};
-  border-radius: .5em;
+  border-radius: 0.5em;
   padding: 1em 3em;
   width: 15em;
   height: auto;
@@ -47,13 +47,15 @@ const Description = styled.div`
 const Projects = ({ className }) => {
   return (
     <div className={className}>
-        <Card fg="#fff" bg="#4f39f6">
-          <InfoLink to="https://qr.rakun.sh">
-            <Avatar id="qrakun" />
-            <Title>QRakun</Title>
-            <Description color="#c8c3ed">Real-time analytics for your sharable links and QR codes</Description>
-          </InfoLink>
-        </Card>
+      <Card fg="#fff" bg="#4f39f6">
+        <InfoLink to="https://qr.rakun.sh">
+          <Avatar id="qrakun" />
+          <Title>QRakun</Title>
+          <Description color="#c8c3ed">
+            Real-time analytics for your sharable links and QR codes
+          </Description>
+        </InfoLink>
+      </Card>
     </div>
   )
 }

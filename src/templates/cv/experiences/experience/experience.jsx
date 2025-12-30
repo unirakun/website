@@ -1,23 +1,17 @@
-import React, { Fragment } from 'react'
-import styled from 'styled-components'
-import { Avatar } from '../../../../components'
-import List from './list'
+import React, { Fragment } from "react"
+import styled from "styled-components"
+import { Avatar } from "../../../../components"
+import List from "./list"
 
-const Date = ({ children }) => new Intl.DateTimeFormat(undefined, { year: 'numeric', month: 'long' }).format(children)
+const Date = ({ children }) =>
+  new Intl.DateTimeFormat(undefined, { year: "numeric", month: "long" }).format(
+    children
+  )
 
 const Experience = (props) => {
-  const {
-    className,
-    title,
-    client,
-    dates,
-    informations = [],
-  } = props
+  const { className, title, client, dates, informations = [] } = props
 
-  const {
-    from,
-    to,
-  } = dates
+  const { from, to } = dates
 
   /* eslint-disable react/destructuring-assignment */
   return (
@@ -30,22 +24,19 @@ const Experience = (props) => {
       </div>
 
       <h2>
-        {client && client.name
-          ? (
-            <Fragment>
-              {client.name}
-              {', on behalf of '}
-              {props.for.name}
-            </Fragment>
-          )
-          : (
-            props.for && props.for.name
-          )
-        }
+        {client && client.name ? (
+          <Fragment>
+            {client.name}
+            {", on behalf of "}
+            {props.for.name}
+          </Fragment>
+        ) : (
+          props.for && props.for.name
+        )}
       </h2>
       <h3>
         <Date>{from}</Date>
-        {' ➤ '}
+        {" ➤ "}
         <Date>{to}</Date>
       </h3>
       <List>{informations}</List>
@@ -72,7 +63,7 @@ export default styled(Experience)`
     grid-area: for;
     margin: 0;
     margin-top: 1em;
-    font-size: .8em;
+    font-size: 0.8em;
     display: flex;
     align-items: center;
     justify-content: flex-end;
@@ -82,7 +73,7 @@ export default styled(Experience)`
     grid-area: dates;
     margin-top: 1em;
     text-align: right;
-    font-size: .8em;
+    font-size: 0.8em;
   }
 
   & > ${List} {
@@ -111,14 +102,14 @@ export default styled(Experience)`
       }
 
       &:first-child {
-        margin-right: -.5em;
+        margin-right: -0.5em;
         z-index: 10;
       }
     }
 
     &:hover {
       & > ${Avatar}:first-child {
-        margin-right: .1em;
+        margin-right: 0.1em;
       }
     }
   }
@@ -144,9 +135,8 @@ export default styled(Experience)`
     }
   }
 
-
   @media print {
     page-break-inside: avoid;
-    font-size: .9em;
+    font-size: 0.9em;
   }
 `

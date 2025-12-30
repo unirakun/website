@@ -1,9 +1,8 @@
-import React from 'react'
-import styled from 'styled-components'
-import { Image } from '.'
+import React from "react"
+import styled from "styled-components"
+import { Image } from "."
 
-const Name = styled.span`
-`
+const Name = styled.span``
 
 const Firstname = styled.span`
   font-weight: bold;
@@ -22,22 +21,16 @@ const Info = ({
   firstNameColor,
   name,
   title,
-  titleColor
+  titleColor,
 }) => (
-    <div className={className}>
-      <span>
-        <Firstname color={firstNameColor}>
-          {firstName}
-        </Firstname>
-        <Name>
-          {name}
-        </Name>
-      </span>
-      <Title color={titleColor}>
-        {title}
-      </Title>
-    </div>
-  )
+  <div className={className}>
+    <span>
+      <Firstname color={firstNameColor}>{firstName}</Firstname>
+      <Name>{name}</Name>
+    </span>
+    <Title color={titleColor}>{title}</Title>
+  </div>
+)
 
 export default styled(Info)`
   font-size: 2em;

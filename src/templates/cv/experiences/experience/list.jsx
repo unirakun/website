@@ -1,5 +1,5 @@
-import React, { Fragment } from 'react'
-import styled from 'styled-components'
+import React, { Fragment } from "react"
+import styled from "styled-components"
 
 const getKey = (item) => {
   if (Array.isArray(item)) return `${getKey(item[0])}-array`
@@ -8,9 +8,13 @@ const getKey = (item) => {
 
 const List = ({ children, className }) => (
   <ul className={className}>
-    {(children || []).map(item => (
+    {(children || []).map((item) => (
       <Fragment key={getKey(item)}>
-        <li dangerouslySetInnerHTML={{ __html: item.text.replace(/\n/g, '<br />') }} />
+        <li
+          dangerouslySetInnerHTML={{
+            __html: item.text.replace(/\n/g, "<br />"),
+          }}
+        />
         {item.children && <List>{item.children}</List>}
       </Fragment>
     ))}

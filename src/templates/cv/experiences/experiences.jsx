@@ -1,8 +1,8 @@
-import React from 'react'
-import styled from 'styled-components'
-import Summary from './summary'
-import Experience from './experience'
-import getId from './getExperienceId'
+import React from "react"
+import styled from "styled-components"
+import Summary from "./summary"
+import Experience from "./experience"
+import getId from "./getExperienceId"
 
 const Experiences = ({ className, children = [] }) => (
   <div className={className}>
@@ -12,7 +12,9 @@ const Experiences = ({ className, children = [] }) => (
 
     <Summary columns={2}>{children}</Summary>
 
-    {children.map(experience => <Experience key={getId(experience)} {...experience} />)}
+    {children.map((experience) => (
+      <Experience key={getId(experience)} {...experience} />
+    ))}
   </div>
 )
 
