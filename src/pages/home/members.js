@@ -83,6 +83,8 @@ export default styled(Members)`
   flex-wrap: wrap;
   margin: auto;
   min-height: 40em;
+    background-color: #ededed;
+
 
   ${Social} {
     color: ${({ theme }) => theme.light};

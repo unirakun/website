@@ -36,8 +36,8 @@ export default styled(Links)`
   display: flex;
   align-items: center;
   justify-content: space-around;
-  position: absolute;
   width: 10em;
-  bottom: 5%;
   font-size: 0.9em;
+  justify-self: end;
+  margin-top: 2em;
 `
