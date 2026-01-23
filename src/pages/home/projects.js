@@ -47,6 +47,15 @@ const Description = styled.div`
 const Projects = ({ className }) => {
   return (
     <div className={className}>
+      <Card fg="#fff" bg="#F8F0E3">
+        <InfoLink to="https://kojimo.fr">
+          <Avatar id="kojimo" />
+          <Title color="#214da4">Kojimo</Title>
+          <Description color="#214da4">
+            The Business Accelerator for Estate Agents.
+          </Description>
+        </InfoLink>
+      </Card>
       <Card fg="#fff" bg="#4f39f6">
         <InfoLink to="https://qr.rakun.sh">
           <Avatar id="qrakun" />
