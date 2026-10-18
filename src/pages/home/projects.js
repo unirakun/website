@@ -108,7 +108,9 @@ export default styled(Projects)`
   justify-content: space-around;
   align-items: center;
   flex-wrap: wrap;
+  gap: 2em;
   margin: auto;
+  padding: 2em 0;
   min-height: 40em;
 
   ${Social} {
