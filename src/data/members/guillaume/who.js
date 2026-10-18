@@ -8,6 +8,10 @@ module.exports = {
   worksSince: Date.UTC(2010, 8, 1),
   socials: [
     {
+      id: "website",
+      url: "https://guillaumecrespel.fr",
+    },
+    {
       id: "twitter",
       url: "https://twitter.com/guillaumcrespel",
     },
