@@ -1,7 +1,7 @@
 import React from "react"
 import { Link } from "gatsby"
 import styled from "styled-components"
-import { Social, Avatar, WagleMark } from "../../components"
+import { Social, Avatar, WagleMark, BrikiaMark } from "../../components"
 
 const InfoLink = styled(Link)`
   display: flex;
@@ -44,14 +44,14 @@ const Description = styled.div`
   color: ${({ color, theme }) => color || theme.grey};
 `
 
-// Mirrors Avatar's circle, but hosts wagle's animated SVG mark instead of a png.
+// Mirrors Avatar's circle, but hosts an SVG mark (wagle, brikia) instead of a png.
 const MarkCircle = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
   width: 10em;
   height: 10em;
-  background-color: #151a21;
+  background-color: ${({ bg }) => bg || "#151a21"};
   border-radius: 50%;
 `
 
@@ -84,6 +84,17 @@ const Projects = ({ className }) => {
           <Title>QRakun</Title>
           <Description color="#c8c3ed">
             Real-time analytics for your sharable links and QR codes
+          </Description>
+        </InfoLink>
+      </Card>
+      <Card fg="#fff" bg="#FFF7F2">
+        <InfoLink to="https://brikia.app">
+          <MarkCircle bg="#C8553D">
+            <BrikiaMark size={110} />
+          </MarkCircle>
+          <Title color="#1A2C8E">Brikia</Title>
+          <Description color="#645F5B">
+            Requests, reports & quotes for construction pros, in one app
           </Description>
         </InfoLink>
       </Card>
