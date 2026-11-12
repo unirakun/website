@@ -1,0 +1,33 @@
+# uni rakun
+
+> uni rakun is a product studio founded by Guillaume CRESPEL (product) and Fabien JUIF (engineering), based in Nantes and Saumur, France. It designs and builds custom software and AI-powered apps for founders, startups and small and medium businesses (TPE/PME). It uses AI coding agents to move fast, but every line is reviewed, tested and shipped by engineers: no vibe coding.
+
+Site in French at https://unirakun.fr/ and in English at https://unirakun.fr/en/.
+
+## What uni rakun builds
+
+- Custom software: internal tools, client portals and SaaS shaped around a business, instead of spreadsheets and stacked subscriptions.
+- AI that does real work: sorting emails, reading documents, drafting reports, planning schedules, always with a human validating.
+- Solid engineering: tests, code review, monitoring and clean deployments, the habits of big tech teams sized for each project.
+- Method: listen, sketch a clickable prototype, build in short tested releases, keep it running and growing.
+- Technologies: TypeScript, React, Node.js, Go, Kubernetes, Google Cloud, Claude, AI agents and MCP.
+
+## Apps built and run by uni rakun
+
+- [Brikia](https://brikia.app): the app for construction pros. Requests, reports and quotes in one place.
+- [Moovi](https://moovi.run): makes coaches' work simpler. Training plans follow pain, cycle and breaks, and land on the watch.
+- [Woof](https://woof-board.sh): your AI coding agents on a kanban board. Drop a card in Ready, get back a pull request.
+- [Wagle](https://wagle.sh): feature flags and remote config that AI agents can drive over MCP.
+- [QRakun](https://qr.rakun.sh): real-time analytics for shareable links and QR codes.
+- [Kojimo](https://kojimo.fr): the business accelerator for estate agents.
+
+## Team
+
+- [Guillaume CRESPEL](https://unirakun.fr/Guillaume-CRESPEL/): C(P)TO and freelance developer in Nantes; turns a business need into a product people use. Website: https://guillaumecrespel.fr. LinkedIn: https://www.linkedin.com/in/guillaume-crespel. Malt: https://www.malt.fr/profile/guillaumecrespel.
+- [Fabien JUIF](https://unirakun.fr/Fabien-JUIF/): software engineer at Cantina Labs, previously at BeReal; architecture, performance and systems at scale. LinkedIn: https://www.linkedin.com/in/fabienjuif.
+
+## Contact
+
+- WhatsApp: +33 7 70 40 27 21 (https://wa.me/33770402721)
+- LinkedIn: https://www.linkedin.com/company/unirakun
+- GitHub: https://github.com/unirakun

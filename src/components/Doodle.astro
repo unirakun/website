@@ -1,0 +1,195 @@
+---
+// Small hand-drawn marks (checks, rings, icons), drawn at build time with
+// rough.js so they share the sketchbook look of the raccoon and the "how we
+// work" sketches. They draw in currentColor, so CSS sets their colour, and
+// each `seed` gives a slightly different hand for every instance.
+import rough from "roughjs"
+
+type Name = "check" | "ring" | "plus" | "layout" | "ai" | "shield"
+
+interface Props {
+  name: Name
+  seed?: number
+  size?: number
+  class?: string
+}
+const { name, seed = 1, size = 24, class: className } = Astro.props
+
+const gen = rough.generator()
+const hand = (extra: Record<string, unknown> = {}) => ({
+  stroke: "currentColor",
+  roughness: 1,
+  bowing: 1,
+  strokeWidth: 2,
+  seed,
+  ...extra,
+})
+
+type Drawable = ReturnType<typeof gen.line>
+type Part = { d: string; w: number; frame?: boolean }
+const paths = (...drawables: Drawable[]): Part[] =>
+  drawables
+    .flatMap((d) => gen.toPaths(d))
+    .map((p) => ({ d: p.d, w: p.strokeWidth }))
+
+// Lucide's glyphs (layout-panel-top, cpu, shield-check), retraced by hand.
+const icon = (shapes: Drawable[]): Part[] => [
+  ...paths(
+    gen.rectangle(
+      3,
+      3,
+      42,
+      42,
+      hand({ roughness: 1.6, bowing: 2, strokeWidth: 1.2, seed: seed + 50 })
+    )
+  ).map((p) => ({ ...p, frame: true })),
+  ...paths(...shapes),
+]
+const at = (n: number) => n * 1.25 + 9 // place a 24-unit glyph inside the 48-unit frame
+
+const shapes: Record<Name, { viewBox: string; parts: Part[] }> = {
+  check: {
+    viewBox: "0 0 32 32",
+    parts: paths(
+      gen.ellipse(
+        16,
+        16,
+        27,
+        25,
+        hand({ roughness: 1.5, bowing: 2, strokeWidth: 1.4 })
+      ),
+      gen.linearPath(
+        [
+          [9, 16.5],
+          [14, 21.5],
+          [24, 9],
+        ],
+        hand({ strokeWidth: 2.6, roughness: 1.1 })
+      )
+    ),
+  },
+  ring: {
+    viewBox: "0 0 32 32",
+    parts: paths(
+      gen.ellipse(
+        16,
+        16,
+        28,
+        26,
+        hand({ roughness: 1.6, bowing: 2.4, strokeWidth: 1.6 })
+      )
+    ),
+  },
+  plus: {
+    viewBox: "0 0 24 24",
+    parts: paths(
+      gen.line(12, 4, 12, 20, hand({ strokeWidth: 1.8 })),
+      gen.line(4, 12, 20, 12, hand({ strokeWidth: 1.8, seed: seed + 1 }))
+    ),
+  },
+  layout: {
+    viewBox: "0 0 48 48",
+    parts: icon([
+      gen.rectangle(
+        at(3),
+        at(3),
+        18 * 1.25,
+        18 * 1.25,
+        hand({ strokeWidth: 1.8 })
+      ),
+      gen.line(at(3), at(9), at(21), at(9), hand({ strokeWidth: 1.8 })),
+      gen.line(at(9), at(21), at(9), at(9), hand({ strokeWidth: 1.8 })),
+    ]),
+  },
+  ai: {
+    viewBox: "0 0 48 48",
+    parts: icon([
+      gen.rectangle(
+        at(5),
+        at(5),
+        14 * 1.25,
+        14 * 1.25,
+        hand({ strokeWidth: 1.8 })
+      ),
+      gen.rectangle(
+        at(9),
+        at(9),
+        6 * 1.25,
+        6 * 1.25,
+        hand({ strokeWidth: 1.6, seed: seed + 2 })
+      ),
+      ...[9, 15].flatMap((v, i) => [
+        gen.line(
+          at(v),
+          at(2),
+          at(v),
+          at(5),
+          hand({ strokeWidth: 1.6, seed: seed + 3 + i })
+        ),
+        gen.line(
+          at(v),
+          at(19),
+          at(v),
+          at(22),
+          hand({ strokeWidth: 1.6, seed: seed + 5 + i })
+        ),
+        gen.line(
+          at(2),
+          at(v),
+          at(5),
+          at(v),
+          hand({ strokeWidth: 1.6, seed: seed + 7 + i })
+        ),
+        gen.line(
+          at(19),
+          at(v),
+          at(22),
+          at(v),
+          hand({ strokeWidth: 1.6, seed: seed + 9 + i })
+        ),
+      ]),
+    ]),
+  },
+  shield: {
+    viewBox: "0 0 48 48",
+    parts: icon([
+      gen.path(
+        `M${at(12)} ${at(22)} C${at(12)} ${at(22)} ${at(20)} ${at(18)} ${at(20)} ${at(12)} L${at(20)} ${at(5)} L${at(12)} ${at(2)} L${at(4)} ${at(5)} L${at(4)} ${at(12)} C${at(4)} ${at(18)} ${at(12)} ${at(22)} ${at(12)} ${at(22)} Z`,
+        hand({ strokeWidth: 1.8 })
+      ),
+      gen.linearPath(
+        [
+          [at(9), at(12)],
+          [at(11), at(14)],
+          [at(15), at(10)],
+        ],
+        hand({ strokeWidth: 1.8, seed: seed + 2 })
+      ),
+    ]),
+  },
+}
+
+const { viewBox, parts } = shapes[name]
+---
+
+<svg
+  class:list={["doodle-mark", className]}
+  width={size}
+  height={size}
+  viewBox={viewBox}
+  fill="none"
+  stroke="currentColor"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  aria-hidden="true"
+>
+  {parts.map((p) => (
+    <path class:list={{ frame: p.frame }} d={p.d} stroke-width={p.w} />
+  ))}
+</svg>
+
+<style>
+  .frame {
+    opacity: 0.4;
+  }
+</style>

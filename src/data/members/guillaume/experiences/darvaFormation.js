@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   title: "Formateur NodeJS",
   client: {
     name: "DARVA",

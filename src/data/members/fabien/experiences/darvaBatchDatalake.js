@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   title: "Lead Backend Developer",
   client: {
     name: "DARVA",
@@ -9,7 +9,7 @@ module.exports = {
     color: "white",
   },
   dates: {
-    from: Date.UTC(2019, 05),
+    from: Date.UTC(2019, 5),
     to: Date.UTC(2019, 11),
   },
   informations: [

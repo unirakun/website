@@ -1,10 +1,11 @@
-const description = require("./description")
-const experiences = require("./experiences")
-const skills = require("./skills")
-const who = require("./who")
+import description from "./description.js"
+import experiences from "./experiences/index.js"
+import skills from "./skills.js"
+import who from "./who.js"
 
-module.exports = {
+export default {
   id: `${who.firstName}-${who.name}`,
+  lang: "fr",
   who,
   description,
   skills,

@@ -1,6 +1,6 @@
-module.exports = [
+export default [
   {
-    name: "langages",
+    name: "languages",
     skills: [
       {
         name: "Go",
@@ -17,7 +17,7 @@ module.exports = [
     ],
   },
   {
-    name: "database",
+    name: "databases",
     skills: [
       {
         name: "Spanner",

@@ -1,7 +1,7 @@
-const fabien = require("./fabien")
-const guillaume = require("./guillaume")
+import fabien from "./fabien/index.js"
+import guillaume from "./guillaume/index.js"
 
-module.exports = [
+export default [
   { ...fabien, next: guillaume.id },
   { ...guillaume, next: fabien.id },
 ]

@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   firstName: "Fabien",
   name: "JUIF",
   title: "Senior Software Engineer",

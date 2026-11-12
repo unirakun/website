@@ -1,0 +1,32 @@
+---
+// A headline whose *starred* words get the blue pen underline, the site's
+// signature, and whose ~tilded~ words get struck through in red pen.
+// `draw` animates the underline once, for the hero.
+interface Props {
+  text: string
+  as?: "h1" | "h2" | "h3" | "span"
+  class?: string
+  draw?: boolean
+}
+const { text, as: Tag = "h2", class: className, draw = false } = Astro.props
+const parts = text
+  .split(/(\*[^*]+\*|~[^~]+~)/)
+  .filter(Boolean)
+  .map((part) =>
+    part.startsWith("*")
+      ? { text: part.slice(1, -1), mark: "key" }
+      : part.startsWith("~")
+        ? { text: part.slice(1, -1), mark: "key strike" }
+        : { text: part, mark: "" }
+  )
+---
+
+<Tag class={className}>
+  {parts.map((part) =>
+    part.mark ? (
+      <span class:list={[part.mark, { draw }]}>{part.text}</span>
+    ) : (
+      part.text
+    )
+  )}
+</Tag>

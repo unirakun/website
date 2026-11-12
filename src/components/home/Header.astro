@@ -1,0 +1,223 @@
+---
+import Raccoon from "../Raccoon.astro"
+import Icon from "../icons/Icon.astro"
+import { COPY, whatsappUrl, type Lang } from "../../i18n/copy"
+
+interface Props {
+  lang: Lang
+}
+const { lang } = Astro.props
+const t = COPY[lang]
+const home = lang === "fr" ? "/" : "/en/"
+---
+
+<div class="bar">
+  <header class="wrap header">
+    <a href={home} class="brand" aria-label="uni rakun">
+      <Raccoon class="brand-logo" head />
+    </a>
+    <nav class="nav" aria-label="Navigation">
+      <a href="#services">{t.nav.services}</a>
+      <a href="#methode">{t.nav.how}</a>
+      <a href="#apps">{t.nav.apps}</a>
+      <a href="#equipe">{t.nav.team}</a>
+      <a href="#faq">{t.nav.faq}</a>
+    </nav>
+    <div class="tools">
+      <nav class="lang" aria-label={t.langLabel}>
+        <a
+          href="/"
+          hreflang="fr"
+          lang="fr"
+          aria-current={lang === "fr" ? "page" : undefined}
+        >
+          FR
+        </a>
+        <a
+          href="/en/"
+          hreflang="en"
+          lang="en"
+          aria-current={lang === "en" ? "page" : undefined}
+        >
+          EN
+        </a>
+      </nav>
+      <button
+        type="button"
+        class="theme"
+        data-theme-toggle
+        aria-label={t.themeLabel}
+      >
+        <Icon name="moon" class="moon" />
+        <Icon name="sun" class="sun" />
+      </button>
+      <a href={whatsappUrl(lang)} class="wa" aria-label="WhatsApp">
+        <Icon name="whatsapp" size={16} />
+        <span>WhatsApp</span>
+      </a>
+    </div>
+  </header>
+</div>
+
+<style>
+  /* The bar stays at the top while scrolling; a hairline appears once the
+     page has moved under it. */
+  .bar {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    border-bottom: 1px solid transparent;
+    background: var(--bg);
+    transition:
+      background-color var(--fast) var(--ease),
+      border-color var(--fast) var(--ease);
+  }
+  @supports (animation-timeline: scroll()) {
+    .bar {
+      animation: bar-line linear both;
+      animation-timeline: scroll();
+      animation-range: 0 48px;
+    }
+  }
+  @keyframes bar-line {
+    to {
+      border-bottom-color: var(--line);
+    }
+  }
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding-block: 12px;
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    color: var(--fg);
+  }
+  .brand :global(.brand-logo) {
+    width: auto;
+    height: 40px;
+  }
+  .nav {
+    display: flex;
+    gap: 4px;
+    font-size: 15px;
+    font-weight: 500;
+  }
+  .nav a {
+    padding: 8px 12px;
+    border-radius: 8px;
+    color: var(--text-2);
+    transition:
+      background-color var(--fast) var(--ease),
+      color var(--fast) var(--ease);
+  }
+  .nav a:hover {
+    background: var(--raised);
+    color: var(--fg);
+  }
+  .tools {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .lang {
+    display: flex;
+    gap: 2px;
+    padding: 2px;
+    border: 1px solid var(--line);
+    border-radius: var(--r-control);
+    font-size: 13px;
+    font-weight: 500;
+  }
+  .lang a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 36px;
+    height: 32px;
+    border-radius: 8px;
+    color: var(--muted);
+    transition:
+      background-color var(--fast) var(--ease),
+      color var(--fast) var(--ease);
+  }
+  .lang a:hover {
+    color: var(--fg);
+  }
+  .lang a[aria-current="page"] {
+    background: var(--raised);
+    color: var(--fg);
+  }
+  .theme {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    border: 1px solid var(--line);
+    border-radius: var(--r-control);
+    background: transparent;
+    color: var(--text-2);
+    transition:
+      background-color var(--fast) var(--ease),
+      color var(--fast) var(--ease);
+  }
+  .theme:hover {
+    background: var(--raised);
+    color: var(--fg);
+  }
+  .theme :global(.sun) {
+    display: none;
+  }
+  :global([data-theme="dark"]) .theme :global(.sun) {
+    display: block;
+  }
+  :global([data-theme="dark"]) .theme :global(.moon) {
+    display: none;
+  }
+  .wa {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-width: 36px;
+    height: 36px;
+    padding: 0 16px;
+    border-radius: var(--r-control);
+    background: var(--btn-bg);
+    color: var(--btn-fg);
+    font-size: 14px;
+    font-weight: 500;
+    transition:
+      background-color var(--fast) var(--ease),
+      transform var(--fast) var(--ease);
+  }
+  .wa:hover {
+    background: color-mix(in srgb, var(--btn-bg) 86%, var(--bg));
+  }
+  .wa:active {
+    transform: scale(0.98);
+  }
+
+  @media (max-width: 960px) {
+    .nav {
+      display: none;
+    }
+  }
+  @media (max-width: 520px) {
+    .brand :global(.brand-logo) {
+      height: 36px;
+    }
+    .wa {
+      width: 36px;
+      padding: 0;
+    }
+    .wa span {
+      display: none;
+    }
+  }
+</style>

@@ -1,0 +1,132 @@
+---
+import Icon from "../icons/Icon.astro"
+import KeyText from "../KeyText.astro"
+import { COPY, whatsappUrl, type Lang } from "../../i18n/copy"
+
+interface Props {
+  lang: Lang
+}
+const { lang } = Astro.props
+const t = COPY[lang]
+---
+
+<section class="wrap contact" id="contact">
+  <KeyText class="title marker" text={t.contactTitle} />
+  <p class="lead">{t.contactLead}</p>
+  <div class="ctas">
+    <a class="btn btn-primary" href={whatsappUrl(lang)}>
+      <Icon name="whatsapp" size={16} />
+      {t.waCta}
+    </a>
+    <a class="btn" href="https://www.linkedin.com/company/unirakun">
+      <Icon name="linkedin" size={16} />
+      LinkedIn
+    </a>
+    <a class="btn" href="https://www.malt.fr/profile/guillaumecrespel">
+      <Icon name="malt" />
+      Malt
+    </a>
+  </div>
+</section>
+
+<footer class="wrap footer">
+  <span>
+    © {new Date().getFullYear()} uni rakun · {t.footer}
+  </span>
+  <span class="links">
+    <a
+      class="icon-btn"
+      href="https://github.com/unirakun"
+      aria-label="GitHub uni rakun"
+    >
+      <Icon name="github" size={16} />
+    </a>
+    <a
+      class="icon-btn"
+      href="https://www.linkedin.com/company/unirakun"
+      aria-label="LinkedIn uni rakun"
+    >
+      <Icon name="linkedin" size={16} />
+    </a>
+    <a
+      class="lang-link"
+      href={t.otherLang.href}
+      hreflang={t.otherLang.label.toLowerCase()}
+      lang={t.otherLang.label.toLowerCase()}
+    >
+      {t.otherLang.name}
+    </a>
+  </span>
+</footer>
+
+<style>
+  .contact {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    padding-block: 128px 64px;
+    text-align: center;
+  }
+  .contact :global(.title) {
+    margin: 0;
+    font-size: clamp(48px, 7vw, 88px);
+    line-height: 1.05;
+  }
+  .lead {
+    margin: 8px 0 0;
+    max-width: 32rem;
+    font-size: 18px;
+    color: var(--text-2);
+  }
+  .ctas {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+    padding-top: 16px;
+  }
+  .footer {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px 16px;
+    padding-block: 24px 32px;
+    border-top: 1px solid var(--line);
+    font-size: 14px;
+    color: var(--muted);
+  }
+  .links {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .footer .icon-btn {
+    border-color: transparent;
+    background: transparent;
+    color: var(--muted);
+  }
+  .lang-link {
+    padding: 8px;
+    font-weight: 500;
+    color: var(--text-2);
+  }
+  .lang-link:hover {
+    color: var(--fg);
+  }
+  @media (max-width: 720px) {
+    .contact {
+      padding-block: 80px 48px;
+    }
+    .lead {
+      font-size: 16px;
+    }
+    .ctas .btn {
+      flex: 1 1 100%;
+    }
+    .footer {
+      justify-content: center;
+    }
+  }
+</style>

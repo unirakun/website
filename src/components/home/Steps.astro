@@ -1,0 +1,451 @@
+---
+// "How we work with you": four sketches, drawn at build time with rough.js so
+// they look hand-drawn like the raccoon (doubled wobbly strokes, pencil
+// hatching, a sketched frame) and ship as plain SVG paths, no script.
+// On wide screens the section pins while you scroll: a blue pen line runs
+// across it and each step lights up and draws itself in turn. Elsewhere each
+// sketch simply draws itself as it comes into view.
+import rough from "roughjs"
+import KeyText from "../KeyText.astro"
+import Doodle from "../Doodle.astro"
+import { COPY, type Lang } from "../../i18n/copy"
+
+interface Props {
+  lang: Lang
+}
+const { lang } = Astro.props
+const t = COPY[lang]
+
+const gen = rough.generator()
+const base = {
+  roughness: 1.4,
+  bowing: 1.6,
+  strokeWidth: 3,
+  hachureGap: 7,
+  hachureAngle: -41,
+  fillWeight: 1.6,
+}
+
+type Part = { d: string; kind: "stroke" | "hatch" | "dot"; role: string }
+
+// rough.js reports each path's colour as given: we pass role names ("ink",
+// "pen", "frame", "soft") and turn them into classes the theme colours.
+const draw = (drawable: ReturnType<typeof gen.line>): Part[] =>
+  gen.toPaths(drawable).map((p) => {
+    if (p.fill && p.fill !== "none")
+      return { d: p.d, kind: "dot", role: p.fill }
+    if (p.stroke === "soft") return { d: p.d, kind: "hatch", role: "soft" }
+    return { d: p.d, kind: "stroke", role: p.stroke }
+  })
+
+const roundRect = (x: number, y: number, w: number, h: number, r: number) =>
+  `M${x + r} ${y} h${w - 2 * r} a${r} ${r} 0 0 1 ${r} ${r} v${h - 2 * r} a${r} ${r} 0 0 1 ${-r} ${r} h${-(w - 2 * r)} a${r} ${r} 0 0 1 ${-r} ${-r} v${-(h - 2 * r)} a${r} ${r} 0 0 1 ${r} ${-r} z`
+
+const ink = (seed: number) => ({ ...base, stroke: "ink", seed })
+const pen = (seed: number) => ({ ...base, stroke: "pen", seed })
+const filled = (stroke: string, seed: number) => ({
+  ...base,
+  stroke,
+  fill: "soft",
+  fillStyle: "hachure" as const,
+  seed,
+})
+const dot = (seed: number) => ({
+  ...base,
+  stroke: "ink",
+  fill: "ink",
+  fillStyle: "solid" as const,
+  roughness: 0.6,
+  seed,
+})
+
+const bubbleA =
+  "M28 22 h96 a14 14 0 0 1 14 14 v34 a14 14 0 0 1 -14 14 h-58 l-24 20 v-20 h-14 a14 14 0 0 1 -14 -14 v-34 a14 14 0 0 1 14 -14 z"
+const bubbleB =
+  "M120 72 h52 a12 12 0 0 1 12 12 v24 a12 12 0 0 1 -12 12 h-6 v16 l-20 -16 h-26 a12 12 0 0 1 -12 -12 v-24 a12 12 0 0 1 12 -12 z"
+
+const sketches: Part[][] = [
+  // 1. We start from your day: a conversation.
+  [
+    ...draw(gen.path(bubbleA, ink(11))),
+    ...draw(gen.line(46, 46, 108, 46, ink(12))),
+    ...draw(gen.line(46, 62, 86, 62, ink(13))),
+    ...draw(gen.path(bubbleB, filled("pen", 14))),
+    ...draw(gen.circle(136, 96, 7, dot(15))),
+    ...draw(gen.circle(148, 96, 7, dot(16))),
+    ...draw(gen.circle(160, 96, 7, dot(17))),
+  ],
+  // 2. You try a prototype: a phone wireframe and a pencil.
+  [
+    ...draw(gen.path(roundRect(56, 12, 78, 128, 14), ink(21))),
+    ...draw(gen.rectangle(70, 32, 50, 24, filled("ink", 22))),
+    ...draw(gen.line(70, 70, 120, 70, ink(23))),
+    ...draw(gen.line(70, 84, 104, 84, ink(24))),
+    ...draw(gen.path(roundRect(70, 104, 50, 16, 8), ink(25))),
+    ...draw(gen.path("M150 134 l6 -22 l32 -32 l16 16 l-32 32 z", pen(26))),
+    ...draw(gen.line(156, 112, 172, 128, pen(27))),
+  ],
+  // 3. We build it with you: blocks of code stacking up.
+  [
+    ...draw(gen.rectangle(24, 94, 74, 42, ink(31))),
+    ...draw(gen.rectangle(102, 94, 74, 42, filled("ink", 32))),
+    ...draw(gen.rectangle(63, 48, 74, 42, ink(33))),
+    ...draw(gen.path("M88 61 l-8 8 l8 8", ink(34))),
+    ...draw(gen.path("M112 61 l8 8 l-8 8", ink(35))),
+    ...draw(gen.line(103, 58, 97, 80, ink(36))),
+    ...draw(gen.line(100, 40, 100, 14, pen(37))),
+    ...draw(gen.path("M90 24 l10 -10 l10 10", pen(38))),
+  ],
+  // 4. We stay by your side: things keep growing.
+  [
+    ...draw(gen.path("M26 16 v114 h158", ink(41))),
+    ...draw(gen.rectangle(44, 100, 20, 30, ink(42))),
+    ...draw(gen.rectangle(76, 82, 20, 48, ink(43))),
+    ...draw(gen.rectangle(108, 62, 20, 68, ink(44))),
+    ...draw(gen.rectangle(140, 40, 20, 90, filled("ink", 45))),
+    ...draw(gen.path("M40 90 Q 90 74 112 50 T 178 16", pen(46))),
+    ...draw(gen.path("M162 14 h16 v16", pen(47))),
+  ],
+]
+
+// A sketched frame around each drawing, in place of a tidy rounded box.
+const frames = [51, 52, 53, 54].map((seed) =>
+  draw(
+    gen.rectangle(4, 4, 212, 162, {
+      ...base,
+      stroke: "frame",
+      strokeWidth: 1.6,
+      roughness: 1.8,
+      bowing: 2.2,
+      seed,
+    })
+  )
+)
+
+const line = draw(
+  gen.curve(
+    [
+      [8, 20],
+      [200, 10],
+      [380, 22],
+      [560, 12],
+      [760, 22],
+      [992, 12],
+    ],
+    { ...base, stroke: "pen", roughness: 1.1, seed: 61 }
+  )
+)
+---
+
+<section class="how" id="methode">
+  <div class="track">
+    <div class="wrap stage">
+      <KeyText class="section-title" text={t.howTitle} />
+      <p class="section-lead">{t.howLead}</p>
+
+      <svg
+        class="line"
+        viewBox="0 0 1000 32"
+        preserveAspectRatio="none"
+        aria-hidden="true"
+      >
+        {line.map((p) => (
+          <path class="line-base" d={p.d} />
+        ))}
+        {line.map((p) => (
+          <path class="line-pen" pathLength="1" d={p.d} />
+        ))}
+      </svg>
+
+      <ol class="steps">
+        {sketches.map((parts, i) => (
+          <li class="step">
+            <svg class="doodle" viewBox="0 0 220 170" aria-hidden="true">
+              {frames[i].map((p) => (
+                <path class="stroke frame" pathLength="1" d={p.d} />
+              ))}
+              <g transform="translate(10 10)">
+                {parts.map((p) =>
+                  p.kind === "stroke" ? (
+                    <path
+                      class:list={["stroke", p.role]}
+                      pathLength="1"
+                      d={p.d}
+                    />
+                  ) : (
+                    <path class={p.kind} d={p.d} />
+                  )
+                )}
+              </g>
+            </svg>
+            <h3>
+              <span class="num">
+                <Doodle name="ring" seed={i + 71} size={32} />
+                <span>{i + 1}</span>
+              </span>
+              {t.steps[i].title}
+            </h3>
+            <p>{t.steps[i].body}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </div>
+</section>
+
+<style>
+  .stage {
+    padding-block: 96px;
+  }
+  .line {
+    display: block;
+    width: 100%;
+    height: 24px;
+    margin-bottom: 24px;
+    overflow: visible;
+  }
+  .line path {
+    fill: none;
+    stroke-width: 3;
+    stroke-linecap: round;
+    vector-effect: non-scaling-stroke;
+  }
+  .line-base {
+    stroke: var(--line);
+  }
+  .line-pen {
+    stroke: var(--accent);
+  }
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 32px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .step {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .doodle {
+    width: 100%;
+    height: auto;
+    margin-bottom: 16px;
+    overflow: visible;
+  }
+  .doodle path {
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .doodle .ink {
+    stroke: var(--fg);
+    stroke-width: 3;
+  }
+  .doodle .pen {
+    stroke: var(--accent);
+    stroke-width: 3;
+  }
+  .doodle .frame {
+    stroke: var(--fg);
+    stroke-width: 1.6;
+    opacity: 0.35;
+  }
+  .doodle .hatch {
+    stroke: var(--accent);
+    stroke-width: 1.6;
+    opacity: 0.55;
+  }
+  .doodle .dot {
+    fill: var(--fg);
+  }
+  h3 {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 1.4;
+  }
+  .num {
+    position: relative;
+    display: inline-flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    font-family: "Permanent Marker", cursive;
+    font-size: 15px;
+    color: var(--accent);
+  }
+  .num :global(.doodle-mark) {
+    position: absolute;
+    inset: 0;
+  }
+  .step p {
+    margin: 0;
+    color: var(--text-2);
+  }
+
+  /* Each sketch draws itself as it comes into view (all screens). */
+  @supports (animation-timeline: view()) {
+    .doodle .stroke {
+      stroke-dasharray: 1;
+      animation: draw linear both;
+      animation-timeline: view();
+      animation-range: entry 10% cover 40%;
+    }
+    .doodle .hatch,
+    .doodle .dot {
+      animation: appear linear both;
+      animation-timeline: view();
+      animation-range: entry 30% cover 45%;
+    }
+    .line-pen {
+      stroke-dasharray: 1;
+      animation: draw linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 50%;
+    }
+  }
+
+  /* Wide screens: pin the section and play the four steps in order. */
+  @supports (view-timeline-name: --how) {
+    @media (min-width: 961px) and (prefers-reduced-motion: no-preference) {
+      .track {
+        height: 260vh;
+        view-timeline: --how block;
+      }
+      .stage {
+        position: sticky;
+        top: 0;
+        display: flex;
+        min-height: 100vh;
+        flex-direction: column;
+        justify-content: center;
+        padding-block: 96px 48px;
+      }
+      .line-pen {
+        animation: draw linear both;
+        animation-timeline: --how;
+        animation-range: contain 0% contain 88%;
+      }
+      .step {
+        animation: wake linear both;
+        animation-timeline: --how;
+      }
+      .step .num {
+        animation: reach linear both;
+        animation-timeline: --how;
+      }
+      .step .doodle .stroke {
+        animation: draw linear both;
+        animation-timeline: --how;
+      }
+      .step .doodle .hatch,
+      .step .doodle .dot {
+        animation: appear linear both;
+        animation-timeline: --how;
+      }
+      .step:nth-child(1),
+      .step:nth-child(1) .num {
+        animation-range: contain 0% contain 6%;
+      }
+      .step:nth-child(1) .doodle .stroke {
+        animation-range: contain 0% contain 18%;
+      }
+      .step:nth-child(1) .doodle :is(.hatch, .dot) {
+        animation-range: contain 14% contain 20%;
+      }
+      .step:nth-child(2),
+      .step:nth-child(2) .num {
+        animation-range: contain 22% contain 28%;
+      }
+      .step:nth-child(2) .doodle .stroke {
+        animation-range: contain 22% contain 40%;
+      }
+      .step:nth-child(2) .doodle :is(.hatch, .dot) {
+        animation-range: contain 36% contain 42%;
+      }
+      .step:nth-child(3),
+      .step:nth-child(3) .num {
+        animation-range: contain 44% contain 50%;
+      }
+      .step:nth-child(3) .doodle .stroke {
+        animation-range: contain 44% contain 62%;
+      }
+      .step:nth-child(3) .doodle :is(.hatch, .dot) {
+        animation-range: contain 58% contain 64%;
+      }
+      .step:nth-child(4),
+      .step:nth-child(4) .num {
+        animation-range: contain 66% contain 72%;
+      }
+      .step:nth-child(4) .doodle .stroke {
+        animation-range: contain 66% contain 84%;
+      }
+      .step:nth-child(4) .doodle :is(.hatch, .dot) {
+        animation-range: contain 80% contain 86%;
+      }
+    }
+  }
+
+  @keyframes draw {
+    from {
+      stroke-dashoffset: 1;
+    }
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+  @keyframes appear {
+    from {
+      opacity: 0;
+    }
+  }
+  @keyframes wake {
+    from {
+      opacity: 0.3;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  @keyframes reach {
+    from {
+      color: var(--muted);
+    }
+    to {
+      color: var(--accent);
+    }
+  }
+
+  @media (max-width: 960px) {
+    .steps {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 32px 16px;
+    }
+    .line {
+      display: none;
+    }
+  }
+  @media (max-width: 720px) {
+    .stage {
+      padding-block: 64px;
+    }
+    .doodle {
+      margin-bottom: 12px;
+    }
+    h3 {
+      font-size: 16px;
+    }
+    .step p {
+      font-size: 14px;
+      line-height: 1.45;
+    }
+  }
+</style>

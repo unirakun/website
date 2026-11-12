@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   title: "Expert développement Frontend",
   client: {
     name: "Sparklane",

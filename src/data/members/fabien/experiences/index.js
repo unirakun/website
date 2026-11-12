@@ -1,11 +1,13 @@
-const bereal = require("./bereal")
-const darvaBatchDatalake = require("./darvaBatchDatalake")
-const darvaExpertise = require("./darvaExpertise")
-const darvaUI = require("./darvaUI")
-const metroscopeArchi = require("./metroscopeArchi")
-const metroscopeDev = require("./metroscopeDev")
+import bereal from "./bereal.js"
+import cantina from "./cantina.js"
+import darvaBatchDatalake from "./darvaBatchDatalake.js"
+import darvaExpertise from "./darvaExpertise.js"
+import darvaUI from "./darvaUI.js"
+import metroscopeArchi from "./metroscopeArchi.js"
+import metroscopeDev from "./metroscopeDev.js"
 
-module.exports = [
+export default [
+  cantina,
   bereal,
   darvaBatchDatalake,
   darvaExpertise,

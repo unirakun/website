@@ -1,16 +1,19 @@
-module.exports = {
-  title: "Senior Software Engineer",
+export default {
+  title: "Senior Backend Developer, Core team (TS/Go)",
   for: {
     name: "BeReal",
     color: "#000000",
   },
   dates: {
-    from: Date.UTC(2022, 0),
-    to: Date.UTC(2024, 11),
+    from: Date.UTC(2022, 2),
+    to: Date.UTC(2025, 11),
   },
   informations: [
     {
       text: "BeReal is a social media app that allows users to share authentic, unfiltered moments with friends, capturing what they're doing at the moment.",
+    },
+    {
+      text: "Joined in March 2022 as a freelance Senior Full Stack Developer, then Senior Backend Developer in the core team (TypeScript) from May 2022, and on a permanent contract from October 2022 (TypeScript and Go).",
     },
     {
       text: "I started at BeReal as the 4th backend engineer during the company's high growth phase. Initially hired as a Fullstack engineer, I quickly transitioned to focus on backend development where the company needed me most.",
@@ -50,6 +53,9 @@ module.exports = {
         { text: "Designed and created the users microservice (9M users/s)" },
         { text: "Introduced auto-batching patterns for NodeJS and Golang" },
         { text: "Implemented elastic Redis cluster with k8s informer pattern" },
+        {
+          text: "Led the development of a new elastic caching framework, using consistent hashing and gRPC",
+        },
         { text: "Optimized k8s load balancing and HPA scaling algorithm" },
         { text: "Created Job framework and UI on top of argo-events" },
         { text: "Set up proper Golang monorepo and CI configuration" },

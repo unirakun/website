@@ -1,0 +1,208 @@
+---
+import "@fontsource-variable/mulish"
+import "@fontsource/permanent-marker"
+import "../styles/global.css"
+
+interface Alternate {
+  hreflang: string
+  href: string
+}
+
+interface Props {
+  lang: string
+  locale: string
+  title: string
+  description: string
+  /** Absolute path of this page, e.g. "/" or "/en/". */
+  path: string
+  alternates?: Alternate[]
+  jsonLd?: object
+  ogType?: "website" | "profile"
+}
+
+const {
+  lang,
+  locale,
+  title,
+  description,
+  path,
+  alternates = [],
+  jsonLd,
+  ogType = "website",
+} = Astro.props
+const site = Astro.site ?? new URL("https://unirakun.fr")
+const canonical = new URL(path, site).href
+const ogImage = new URL("/og.png", site).href
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {alternates.map((alt) => (
+      <link
+        rel="alternate"
+        hreflang={alt.hreflang}
+        href={new URL(alt.href, site).href}
+      />
+    ))}
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="apple-touch-icon" href="/logo.png" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <meta
+      name="theme-color"
+      content="#ededed"
+      media="(prefers-color-scheme: light)"
+    />
+    <meta
+      name="theme-color"
+      content="#141414"
+      media="(prefers-color-scheme: dark)"
+    />
+
+    <meta property="og:type" content={ogType} />
+    <meta property="og:site_name" content="uni rakun" />
+    <meta property="og:locale" content={locale} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    {jsonLd && (
+      <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+    )}
+
+    <script is:inline>
+      // Apply the saved or system theme before the first paint.
+      ;(() => {
+        let theme
+        try {
+          theme = localStorage.getItem("theme")
+        } catch {}
+        if (theme !== "light" && theme !== "dark") {
+          theme = matchMedia("(prefers-color-scheme: dark)").matches
+            ? "dark"
+            : "light"
+        }
+        document.documentElement.dataset.theme = theme
+      })()
+    </script>
+  </head>
+  <body>
+    <slot />
+
+    <script>
+      // Theme switch: any [data-theme-toggle] button flips and remembers it.
+      for (const button of document.querySelectorAll<HTMLButtonElement>(
+        "[data-theme-toggle]"
+      )) {
+        const sync = () =>
+          button.setAttribute(
+            "aria-pressed",
+            String(document.documentElement.dataset.theme === "dark")
+          )
+        sync()
+        button.addEventListener("click", () => {
+          const next =
+            document.documentElement.dataset.theme === "dark" ? "light" : "dark"
+          document.documentElement.dataset.theme = next
+          try {
+            localStorage.setItem("theme", next)
+          } catch {}
+          sync()
+        })
+      }
+
+      // The raccoon's pupils look at the pointer. Each pupil is aimed from its
+      // own centre on screen (so the header head and the hero drawing both
+      // look at the same spot), and re-aimed on scroll since the page moves
+      // under a still pointer. Offsets are in SVG units, like the old site:
+      // at most 15 across and 10 up or down.
+      const eyes = [
+        ...document.querySelectorAll<SVGGraphicsElement>(".raccoon-eye"),
+      ]
+      const still = matchMedia("(prefers-reduced-motion: reduce)").matches
+      if (eyes.length && !still) {
+        const state = eyes.map(() => ({ x: 0, y: 0, tx: 0, ty: 0 }))
+        let pointer: { x: number; y: number } | null = null
+        let frame = 0
+
+        const aim = () => {
+          if (!pointer) return
+          eyes.forEach((eye, i) => {
+            const svg = eye.ownerSVGElement
+            if (!svg) return
+            const box = svg.getBoundingClientRect()
+            if (box.bottom < 0 || box.top > innerHeight) return
+            const vb = svg.viewBox.baseVal
+            const scale = box.width / vb.width
+            const b = eye.getBBox()
+            const cx = box.left + (b.x + b.width / 2 - vb.x) * scale
+            const cy = box.top + (b.y + b.height / 2 - vb.y) * scale
+            const dx = pointer!.x - cx
+            const dy = pointer!.y - cy
+            const dist = Math.hypot(dx, dy) || 1
+            const reach = Math.min(1, dist / 240)
+            state[i].tx = (dx / dist) * 15 * reach
+            state[i].ty = (dy / dist) * 10 * reach
+          })
+          if (!frame) frame = requestAnimationFrame(step)
+        }
+
+        const step = () => {
+          let moving = false
+          eyes.forEach((eye, i) => {
+            const s = state[i]
+            s.x += (s.tx - s.x) * 0.18
+            s.y += (s.ty - s.y) * 0.18
+            if (Math.abs(s.tx - s.x) + Math.abs(s.ty - s.y) > 0.05)
+              moving = true
+            eye.setAttribute(
+              "transform",
+              `translate(${s.x.toFixed(2)} ${s.y.toFixed(2)})`
+            )
+          })
+          frame = moving ? requestAnimationFrame(step) : 0
+        }
+
+        addEventListener(
+          "pointermove",
+          (event) => {
+            pointer = { x: event.clientX, y: event.clientY }
+            aim()
+          },
+          { passive: true }
+        )
+        addEventListener("scroll", aim, { passive: true })
+      }
+    </script>
+
+    {import.meta.env.PROD && <script is:inline>
+      // Crisp chat, loaded once the page is idle so it never slows the first paint.
+      addEventListener("load", () => {
+        const start = () => {
+          window.$crisp = []
+          window.CRISP_WEBSITE_ID = "fef5442a-c7dd-421f-a62f-8836c9e2a665"
+          const s = document.createElement("script")
+          s.src = "https://client.crisp.chat/l.js"
+          s.async = true
+          document.head.appendChild(s)
+        }
+        ;("requestIdleCallback" in window ? requestIdleCallback : setTimeout)(
+          start,
+          2500
+        )
+      })
+    </script>}
+  </body>
+</html>
