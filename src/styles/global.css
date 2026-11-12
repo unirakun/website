@@ -20,7 +20,6 @@
   --muted: #6f685f;
   --line: rgb(31 28 24 / 0.1);
   --accent: #3149c9;
-  --accent-soft: #cfd6f6;
   --red-pen: #c93a25;
   --btn-bg: #1f1c18;
   --btn-fg: #faf9f6;
@@ -39,7 +38,6 @@
     --muted: #8f897f;
     --line: rgb(239 233 222 / 0.1);
     --accent: #8fa0ff;
-    --accent-soft: #2c3150;
     --red-pen: #ff7a63;
     --btn-bg: #efe9de;
     --btn-fg: #161513;
@@ -58,7 +56,6 @@
   --muted: #8f897f;
   --line: rgb(239 233 222 / 0.1);
   --accent: #8fa0ff;
-  --accent-soft: #2c3150;
   --red-pen: #ff7a63;
   --btn-bg: #efe9de;
   --btn-fg: #161513;

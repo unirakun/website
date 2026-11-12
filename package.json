@@ -12,7 +12,6 @@
   },
   "scripts": {
     "dev": "astro dev",
-    "start": "astro dev",
     "build": "astro build && node scripts/cv-pdf.mjs",
     "preview": "astro preview",
     "format": "prettier --write .",
