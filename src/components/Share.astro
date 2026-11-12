@@ -1,0 +1,248 @@
+---
+// A "Share" button. On phones it opens the system share sheet (WhatsApp,
+// Messages, Mail…); elsewhere a small menu offers copy link, WhatsApp,
+// LinkedIn and e-mail. Shares the page's public URL on unirakun.fr.
+import Icon from "./icons/Icon.astro"
+
+interface Props {
+  lang: "fr" | "en"
+  /** Path on unirakun.fr, e.g. "/" or "/en/Fabien-JUIF/". */
+  path: string
+  title: string
+  text: string
+  /** "icon": a square icon button (header); "button": icon and label. */
+  variant?: "icon" | "button"
+  class?: string
+}
+const {
+  lang,
+  path,
+  title,
+  text,
+  variant = "button",
+  class: className,
+} = Astro.props
+const url = new URL(path, "https://unirakun.fr").href
+const id = `share-${Math.random().toString(36).slice(2, 8)}`
+
+const L = {
+  fr: {
+    share: "Partager",
+    menu: "Partager cette page",
+    copy: "Copier le lien",
+    copied: "Lien copié",
+    email: "E-mail",
+  },
+  en: {
+    share: "Share",
+    menu: "Share this page",
+    copy: "Copy link",
+    copied: "Link copied",
+    email: "Email",
+  },
+}[lang]
+
+const message = `${text} ${url}`
+const links = {
+  whatsapp: `https://wa.me/?text=${encodeURIComponent(message)}`,
+  linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`,
+  email: `mailto:?subject=${encodeURIComponent(title)}&body=${encodeURIComponent(message)}`,
+}
+---
+
+<div
+  class:list={["share", className]}
+  data-share
+  data-url={url}
+  data-title={title}
+  data-text={text}
+>
+  <button
+    type="button"
+    class:list={["trigger", variant]}
+    aria-haspopup="true"
+    aria-expanded="false"
+    aria-controls={id}
+    aria-label={variant === "icon" ? L.share : undefined}
+  >
+    <Icon name="share" size={16} />
+    {variant === "button" && <span>{L.share}</span>}
+  </button>
+  <div class="menu" id={id} popover aria-label={L.menu}>
+    <button type="button" class="item" data-copy>
+      <Icon name="link" size={16} />
+      <span data-copy-label>{L.copy}</span>
+      <span class="done" data-copied hidden>
+        {L.copied}
+      </span>
+    </button>
+    <a class="item" href={links.whatsapp} target="_blank" rel="noopener">
+      <Icon name="whatsapp" size={16} />
+      WhatsApp
+    </a>
+    <a class="item" href={links.linkedin} target="_blank" rel="noopener">
+      <Icon name="linkedin" size={16} />
+      LinkedIn
+    </a>
+    <a class="item" href={links.email}>
+      <Icon name="mail" size={16} />
+      {L.email}
+    </a>
+  </div>
+</div>
+
+<script>
+  for (const root of document.querySelectorAll<HTMLElement>("[data-share]")) {
+    const trigger = root.querySelector<HTMLButtonElement>(".trigger")!
+    const menu = root.querySelector<HTMLElement>(".menu")!
+    const { url = "", title = "", text = "" } = root.dataset
+    const touch = matchMedia("(pointer: coarse)").matches
+
+    const place = () => {
+      const r = trigger.getBoundingClientRect()
+      const width = menu.offsetWidth
+      const left = Math.min(
+        Math.max(8, r.right - width),
+        innerWidth - width - 8
+      )
+      const below = r.bottom + 8
+      const top =
+        below + menu.offsetHeight > innerHeight - 8
+          ? r.top - menu.offsetHeight - 8
+          : below
+      menu.style.left = `${left}px`
+      menu.style.top = `${top}px`
+    }
+
+    trigger.addEventListener("click", async () => {
+      // Phones: the system share sheet lists the apps people actually use.
+      if (touch && navigator.share) {
+        try {
+          await navigator.share({ title, text, url })
+          return
+        } catch (error) {
+          if ((error as DOMException).name === "AbortError") return
+        }
+      }
+      menu.togglePopover()
+    })
+    menu.addEventListener("toggle", (event) => {
+      const open = (event as ToggleEvent).newState === "open"
+      trigger.setAttribute("aria-expanded", String(open))
+      if (open) place()
+    })
+    addEventListener("resize", () => menu.matches(":popover-open") && place())
+    addEventListener("scroll", () => menu.matches(":popover-open") && place(), {
+      passive: true,
+    })
+
+    const copy = root.querySelector<HTMLButtonElement>("[data-copy]")!
+    const label = root.querySelector<HTMLElement>("[data-copy-label]")!
+    const done = root.querySelector<HTMLElement>("[data-copied]")!
+    copy.addEventListener("click", async () => {
+      try {
+        await navigator.clipboard.writeText(url)
+      } catch {
+        // Clipboard API refused (older browser, no permission): the classic
+        // way, through a hidden text field.
+        const field = document.createElement("textarea")
+        field.value = url
+        field.setAttribute("readonly", "")
+        field.style.position = "fixed"
+        field.style.opacity = "0"
+        document.body.append(field)
+        field.select()
+        document.execCommand("copy")
+        field.remove()
+      }
+      label.hidden = true
+      done.hidden = false
+      setTimeout(() => {
+        label.hidden = false
+        done.hidden = true
+        menu.hidePopover()
+      }, 1400)
+    })
+  }
+</script>
+
+<style>
+  .share {
+    display: inline-flex;
+  }
+  .trigger {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    height: 36px;
+    padding: 0 14px;
+    border: 1px solid var(--line);
+    border-radius: var(--r-control);
+    background: transparent;
+    color: var(--text-2);
+    font-size: 14px;
+    font-weight: 500;
+    transition:
+      background-color var(--fast) var(--ease),
+      color var(--fast) var(--ease);
+  }
+  .trigger:hover,
+  .trigger[aria-expanded="true"] {
+    background: var(--raised);
+    color: var(--fg);
+  }
+  .trigger.icon {
+    width: 36px;
+    padding: 0;
+  }
+  .menu {
+    position: fixed;
+    inset: auto;
+    margin: 0;
+    min-width: 220px;
+    padding: 6px;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    background: var(--surface);
+    color: var(--fg);
+    box-shadow: var(--shadow-up);
+  }
+  .menu:popover-open {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    animation: pop-in var(--fast) var(--ease);
+  }
+  @keyframes pop-in {
+    from {
+      opacity: 0;
+      transform: translateY(-4px);
+    }
+  }
+  .item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-height: 40px;
+    padding: 0 12px;
+    border: 0;
+    border-radius: 8px;
+    background: transparent;
+    color: var(--fg);
+    font-size: 14px;
+    font-weight: 500;
+    text-align: left;
+    transition: background-color var(--fast) var(--ease);
+  }
+  .item:hover,
+  .item:focus-visible {
+    background: var(--raised);
+  }
+  .item :global(svg) {
+    color: var(--text-2);
+  }
+  .done {
+    color: var(--accent);
+  }
+</style>

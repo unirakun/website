@@ -1,6 +1,7 @@
 ---
 import Raccoon from "../Raccoon.astro"
 import Icon from "../icons/Icon.astro"
+import Share from "../Share.astro"
 import { COPY, whatsappUrl, type Lang } from "../../i18n/copy"
 
 interface Props {
@@ -42,6 +43,13 @@ const home = lang === "fr" ? "/" : "/en/"
           EN
         </a>
       </nav>
+      <Share
+        variant="icon"
+        lang={lang}
+        path={home}
+        title={t.meta.title}
+        text={t.shareText}
+      />
       <button
         type="button"
         class="theme"
