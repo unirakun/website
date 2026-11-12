@@ -18,6 +18,8 @@ pnpm build
 pnpm preview
 ```
 
+`pnpm build` also prints the résumé PDFs. `pnpm build:site` builds the site alone, without Playwright.
+
 Pushing to `master` builds the site and publishes it to GitHub Pages (`.github/workflows/deploy.yml`).
 
 **Where things live**
@@ -36,9 +38,9 @@ Pushing to `master` builds the site and publishes it to GitHub Pages (`.github/w
 
 # About uni rakun ![unirakun](https://avatars3.githubusercontent.com/u/26111459?s=50&v=4)
 
-**uni rakun** is created by two passionate french developers.
+**uni rakun** is the product studio of Guillaume CRESPEL (product) and Fabien JUIF (tech), in Nantes and Saumur, France. It builds custom software and AI-powered apps for founders, startups and small businesses.
 
-Do you want to contact them ? Go to their [website](https://unirakun.fr)
+To talk about a project, go to [unirakun.fr](https://unirakun.fr).
 
 <table border="0">
  <tr>

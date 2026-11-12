@@ -186,23 +186,5 @@ const ogImage = new URL("/og.png", site).href
         addEventListener("scroll", aim, { passive: true })
       }
     </script>
-
-    {import.meta.env.PROD && <script is:inline>
-      // Crisp chat, loaded once the page is idle so it never slows the first paint.
-      addEventListener("load", () => {
-        const start = () => {
-          window.$crisp = []
-          window.CRISP_WEBSITE_ID = "fef5442a-c7dd-421f-a62f-8836c9e2a665"
-          const s = document.createElement("script")
-          s.src = "https://client.crisp.chat/l.js"
-          s.async = true
-          document.head.appendChild(s)
-        }
-        ;("requestIdleCallback" in window ? requestIdleCallback : setTimeout)(
-          start,
-          2500
-        )
-      })
-    </script>}
   </body>
 </html>
