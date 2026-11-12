@@ -50,8 +50,11 @@ const ogImage = new URL("/og.png", site).href
         href={new URL(alt.href, site).href}
       />
     ))}
-    <link rel="icon" type="image/png" href="/favicon.png" />
-    <link rel="apple-touch-icon" href="/logo.png" />
+    <!-- The SVG follows the browser's light or dark mode; the PNG serves
+         browsers without SVG favicons (built by scripts/favicon.mjs). -->
+    <link rel="icon" type="image/png" href="/favicon.png" sizes="48x48" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="sitemap" href="/sitemap-index.xml" />
     <meta
       name="theme-color"

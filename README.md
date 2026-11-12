@@ -24,17 +24,18 @@ Pushing to `master` builds the site and publishes it to GitHub Pages (`.github/w
 
 **Where things live**
 
-| Path                                 | Content                                                                                                              |
-| ------------------------------------ | -------------------------------------------------------------------------------------------------------------------- |
-| `src/i18n/copy.ts`                   | Every string of the home page, in French and English                                                                 |
-| `src/data/products.ts`               | The apps shown on the home page                                                                                      |
-| `src/data/members/`                  | The résumés: who, description, skills, experiences                                                                   |
-| `src/components/home/`               | The home page sections                                                                                               |
-| `src/components/cv/Resume.astro`     | The résumé page, served in French (`src/pages/[member].astro`) and English (`src/pages/en/[member].astro`)           |
-| `src/data/members/*/translations.js` | Each résumé in its other language, keyed by the source strings                                                       |
-| `public/llms.txt`                    | The site summarised for AI assistants                                                                                |
-| `scripts/cv-pdf.mjs`                 | Prints each résumé to `dist/cv/<id>-<lang>.pdf` after the build (needs `pnpm exec playwright install chromium` once) |
-| `scripts/og-image.mjs`               | Rebuilds `public/og.png`, the image shown when the site is shared                                                    |
+| Path                                 | Content                                                                                                               |
+| ------------------------------------ | --------------------------------------------------------------------------------------------------------------------- |
+| `src/i18n/copy.ts`                   | Every string of the home page, in French and English                                                                  |
+| `src/data/products.ts`               | The apps shown on the home page                                                                                       |
+| `src/data/members/`                  | The résumés: who, description, skills, experiences                                                                    |
+| `src/components/home/`               | The home page sections                                                                                                |
+| `src/components/cv/Resume.astro`     | The résumé page, served in French (`src/pages/[member].astro`) and English (`src/pages/en/[member].astro`)            |
+| `src/data/members/*/translations.js` | Each résumé in its other language, keyed by the source strings                                                        |
+| `public/llms.txt`                    | The site summarised for AI assistants                                                                                 |
+| `scripts/cv-pdf.mjs`                 | Prints each résumé to `dist/cv/<id>-<lang>.pdf` after the build (needs `pnpm exec playwright install chromium` once)  |
+| `scripts/og-image.mjs`               | Rebuilds `public/og.png`, the image shown when the site is shared                                                     |
+| `scripts/favicon.mjs`                | Rebuilds the favicons (an SVG that follows light and dark mode, PNG fallbacks) from the header raccoon, after a build |
 
 # About uni rakun ![unirakun](https://avatars3.githubusercontent.com/u/26111459?s=50&v=4)
 
