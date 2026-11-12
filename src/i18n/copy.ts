@@ -128,6 +128,10 @@ const fr = {
     "Racontez-nous ce qui vous fait perdre du temps. On revient vers vous avec des idées concrètes, sur WhatsApp ou sur LinkedIn.",
   waCta: "WhatsApp · 07 70 40 27 21",
   waText: "Bonjour uni rakun, j'aimerais vous parler d'un projet.",
+  shareText:
+    "Je te recommande uni rakun : des logiciels sur mesure et des applications boostées par l'IA pour les entrepreneurs, startups, TPE et PME.",
+  shareLead:
+    "Vous connaissez quelqu'un que ça pourrait aider ? Envoyez-lui le lien.",
   footer: "Nantes et Saumur",
   otherLang: { href: "/en/", label: "EN", name: "English" },
 }
@@ -248,6 +252,9 @@ const en: typeof fr = {
     "Tell us what wastes your time. We will come back with concrete ideas, on WhatsApp or LinkedIn.",
   waCta: "WhatsApp · +33 7 70 40 27 21",
   waText: "Hi uni rakun, I'd like to talk about a project.",
+  shareText:
+    "I recommend uni rakun: custom software and AI-powered apps for founders, startups and small businesses.",
+  shareLead: "Know someone this could help? Send them the link.",
   footer: "Nantes and Saumur, France",
   otherLang: { href: "/", label: "FR", name: "Français" },
 }

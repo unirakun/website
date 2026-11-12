@@ -1,6 +1,7 @@
 ---
 import Icon from "../icons/Icon.astro"
 import KeyText from "../KeyText.astro"
+import Share from "../Share.astro"
 import { COPY, whatsappUrl, type Lang } from "../../i18n/copy"
 
 interface Props {
@@ -26,6 +27,15 @@ const t = COPY[lang]
       <Icon name="malt" />
       Malt
     </a>
+  </div>
+  <div class="share-line">
+    <p>{t.shareLead}</p>
+    <Share
+      lang={lang}
+      path={lang === "fr" ? "/" : "/en/"}
+      title={t.meta.title}
+      text={t.shareText}
+    />
   </div>
 </section>
 
@@ -85,6 +95,20 @@ const t = COPY[lang]
     justify-content: center;
     gap: 12px;
     padding-top: 16px;
+  }
+  .share-line {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 12px 16px;
+    margin-top: 32px;
+    padding-top: 24px;
+    border-top: 1px solid var(--line);
+    color: var(--text-2);
+  }
+  .share-line p {
+    margin: 0;
   }
   .footer {
     display: flex;

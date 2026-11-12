@@ -11,6 +11,7 @@ import Layout from "../../layouts/Layout.astro"
 import Icon from "../icons/Icon.astro"
 import Raccoon from "../Raccoon.astro"
 import Doodle from "../Doodle.astro"
+import Share from "../Share.astro"
 import { logosIn, techLogo } from "../../data/techLogos"
 import members from "../../data/members/index.js"
 
@@ -253,6 +254,18 @@ const jsonLd = {
             <Icon name="download" size={16} />
             <span>{L.print}</span>
           </a>
+          <Share
+            variant="icon"
+            class="cv-share"
+            lang={lang}
+            path={`${prefix}/${member.id}/`}
+            title={title}
+            text={
+              lang === "fr"
+                ? `Le CV de ${fullName}, chez uni rakun :`
+                : `${fullName}'s résumé at uni rakun:`
+            }
+          />
           <button
             type="button"
             class="tool square"
@@ -635,6 +648,10 @@ const jsonLd = {
     color: var(--fg);
   }
   /* Every control of the top bar is 38px tall, like the FR/EN switch. */
+  .tools :global(.cv-share .trigger) {
+    width: 38px;
+    height: 38px;
+  }
   .tool {
     display: inline-flex;
     align-items: center;
