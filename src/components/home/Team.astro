@@ -1,0 +1,254 @@
+---
+import { Image } from "astro:assets"
+import Icon from "../icons/Icon.astro"
+import KeyText from "../KeyText.astro"
+import guillaumePhoto from "../../images/guillaume-crespel.png"
+import fabienPhoto from "../../images/fabien-juif.png"
+import { COPY, whatsappUrl, type Lang } from "../../i18n/copy"
+
+interface Props {
+  lang: Lang
+}
+const { lang } = Astro.props
+const t = COPY[lang]
+const cvPrefix = lang === "fr" ? "" : "/en"
+---
+
+<section class="team" id="equipe">
+  <div class="wrap section">
+    <KeyText class="section-title" text={t.teamTitle} />
+    <p class="section-lead">{t.teamLead}</p>
+    <div class="people">
+      <article class="person">
+        <Image
+          class="photo"
+          src={guillaumePhoto}
+          alt="Guillaume CRESPEL"
+          width={320}
+          height={320}
+        />
+        <div class="about">
+          <p class="role">{t.gRole}</p>
+          <h3>
+            <a class="card-link" href={`${cvPrefix}/Guillaume-CRESPEL/`}>
+              Guillaume CRESPEL
+            </a>
+          </h3>
+          <p class="line">{t.gLine}</p>
+          <div class="links">
+            <a class="btn site" href="https://guillaumecrespel.fr">
+              <Icon name="globe" size={16} />
+              guillaumecrespel.fr
+            </a>
+            <a
+              class="icon-btn"
+              href="https://www.linkedin.com/in/guillaume-crespel"
+              aria-label="LinkedIn"
+            >
+              <Icon name="linkedin" size={16} />
+            </a>
+            <a
+              class="icon-btn"
+              href="https://github.com/guillaumecrespel"
+              aria-label="GitHub"
+            >
+              <Icon name="github" size={16} />
+            </a>
+            <a
+              class="icon-btn"
+              href="https://www.malt.fr/profile/guillaumecrespel"
+              aria-label="Malt"
+            >
+              <Icon name="malt" />
+            </a>
+            <a class="icon-btn" href={whatsappUrl(lang)} aria-label="WhatsApp">
+              <Icon name="whatsapp" size={16} />
+            </a>
+          </div>
+          <span class="resume" aria-hidden="true">
+            {t.resume} →
+          </span>
+        </div>
+      </article>
+
+      <article class="person">
+        <Image
+          class="photo"
+          src={fabienPhoto}
+          alt="Fabien JUIF"
+          width={320}
+          height={320}
+        />
+        <div class="about">
+          <p class="role">{t.fRole}</p>
+          <h3>
+            <a class="card-link" href={`${cvPrefix}/Fabien-JUIF/`}>
+              Fabien JUIF
+            </a>
+          </h3>
+          <p class="line">{t.fLine}</p>
+          <div class="links">
+            <a class="btn site" href="https://www.linkedin.com/in/fabienjuif">
+              <Icon name="linkedin" size={16} />
+              LinkedIn
+            </a>
+            <a
+              class="icon-btn"
+              href="https://github.com/fabienjuif"
+              aria-label="GitHub"
+            >
+              <Icon name="github" size={16} />
+            </a>
+          </div>
+          <span class="resume" aria-hidden="true">
+            {t.resume} →
+          </span>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<style>
+  .team {
+    border-block: 1px solid var(--line);
+    background: var(--surface);
+  }
+  .people {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 48px 64px;
+  }
+  /* The whole card opens the résumé: the link on the name stretches over
+     it, and the social links sit above that layer to stay clickable. */
+  .person {
+    position: relative;
+    display: grid;
+    grid-template-columns: 160px minmax(0, 1fr);
+    align-items: start;
+    gap: 32px;
+    margin: -16px;
+    padding: 16px;
+    border-radius: var(--r-card);
+    transition: background-color var(--fast) var(--ease);
+  }
+  .person:hover {
+    background: var(--bg);
+  }
+  .card-link::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+  }
+  .card-link:focus-visible {
+    outline: none;
+  }
+  .card-link:focus-visible::after {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+    border-radius: var(--r-card);
+  }
+  .links {
+    position: relative;
+    z-index: 1;
+  }
+  .person:hover .resume {
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+  .person :global(.photo) {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1;
+    object-fit: cover;
+    object-position: center top;
+    border-radius: var(--r-card);
+    background: var(--raised);
+  }
+  .about {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .role {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--muted);
+  }
+  h3 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+  }
+  .line {
+    margin: 0;
+    color: var(--text-2);
+  }
+  .links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding-top: 8px;
+  }
+  .site {
+    min-height: 40px;
+    padding: 0 16px;
+    font-size: 14px;
+  }
+  .resume {
+    align-self: flex-start;
+    padding-top: 8px;
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--accent);
+  }
+
+  @media (max-width: 960px) {
+    .people {
+      grid-template-columns: 1fr;
+    }
+  }
+  @media (max-width: 720px) {
+    .people {
+      gap: 40px;
+    }
+    .person {
+      grid-template-columns: 96px minmax(0, 1fr);
+      gap: 16px;
+    }
+    .person :global(.photo) {
+      border-radius: 12px;
+    }
+    h3 {
+      font-size: 20px;
+    }
+    .line,
+    .links,
+    .resume {
+      grid-column: 1 / -1;
+    }
+    .about {
+      display: contents;
+    }
+    .person :global(.photo) {
+      grid-row: 1 / span 2;
+    }
+    .role,
+    .about h3 {
+      grid-column: 2;
+    }
+    .role {
+      grid-row: 1;
+      align-self: end;
+    }
+    .about h3 {
+      grid-row: 2;
+      align-self: start;
+    }
+  }
+</style>

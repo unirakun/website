@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   firstName: "Guillaume",
   name: "CRESPEL",
   title: "developer",
@@ -22,6 +22,10 @@ module.exports = {
     {
       id: "linkedin",
       url: "https://www.linkedin.com/in/guillaume-crespel",
+    },
+    {
+      id: "malt",
+      url: "https://www.malt.fr/profile/guillaumecrespel",
     },
   ],
 }

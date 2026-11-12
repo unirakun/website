@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   title: "Architecture and Project Management Consultant",
   client: {
     name: "Metroscope",

@@ -1,0 +1,15 @@
+---
+// The résumés in English, at /en/Guillaume-CRESPEL/ and /en/Fabien-JUIF/.
+import Resume from "../../components/cv/Resume.astro"
+import members from "../../data/members/index.js"
+
+export function getStaticPaths() {
+  return members.map((member) => ({
+    params: { member: member.id },
+    props: { member },
+  }))
+}
+const { member } = Astro.props
+---
+
+<Resume member={member} lang="en" />

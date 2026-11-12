@@ -1,0 +1,58 @@
+---
+import Layout from "../layouts/Layout.astro"
+import Raccoon from "../components/Raccoon.astro"
+---
+
+<Layout
+  lang="fr"
+  locale="fr_FR"
+  title="Page introuvable · uni rakun"
+  description="Cette page n'existe pas (ou plus)."
+  path="/404/"
+>
+  <main class="wrap lost">
+    <Raccoon class="lost-logo" />
+    <h1 class="marker">Perdu ?</h1>
+    <p>
+      Cette page n'existe pas (ou plus).{" "}
+      <span lang="en">This page doesn't exist.</span>
+    </p>
+    <div class="ctas">
+      <a class="btn btn-dark" href="/">
+        Accueil
+      </a>
+      <a class="btn" href="/en/" lang="en">
+        Home
+      </a>
+    </div>
+  </main>
+</Layout>
+
+<style>
+  .lost {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    text-align: center;
+  }
+  .lost :global(.lost-logo) {
+    width: min(320px, 70vw);
+    height: auto;
+    color: var(--fg);
+  }
+  h1 {
+    margin: 0;
+    font-size: 64px;
+  }
+  p {
+    margin: 0;
+    color: var(--muted);
+  }
+  .ctas {
+    display: flex;
+    gap: 12px;
+  }
+</style>

@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   title: "NodeJS Expert and Trainer",
   client: {
     name: "DARVA",

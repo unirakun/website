@@ -1,0 +1,97 @@
+---
+import Doodle from "../Doodle.astro"
+import KeyText from "../KeyText.astro"
+import { COPY, type Lang } from "../../i18n/copy"
+
+interface Props {
+  lang: Lang
+}
+const { lang } = Astro.props
+const t = COPY[lang]
+---
+
+<section class="wrap section faq-section" id="faq">
+  <KeyText class="section-title" text={t.faqTitle} />
+  <div class="faq">
+    {t.faq.map((item, i) => (
+      <details open={i === 0}>
+        <summary>
+          <h3>{item.q}</h3>
+          <span class="plus">
+            <Doodle name="plus" seed={i + 21} size={20} />
+          </span>
+        </summary>
+        <p>{item.a}</p>
+      </details>
+    ))}
+  </div>
+</section>
+
+<style>
+  .faq-section {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+    align-items: start;
+    gap: 32px 64px;
+  }
+  .faq {
+    border-top: 1px solid var(--line);
+  }
+  details {
+    border-bottom: 1px solid var(--line);
+  }
+  summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    min-height: 44px;
+    padding: 20px 0;
+    cursor: pointer;
+    list-style: none;
+  }
+  summary::-webkit-details-marker {
+    display: none;
+  }
+  h3 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 1.4;
+  }
+  .plus {
+    display: flex;
+    flex: none;
+    color: var(--muted);
+    transition: transform var(--fast) var(--ease);
+  }
+  details[open] .plus {
+    transform: rotate(45deg);
+  }
+  summary:hover h3 {
+    color: var(--accent);
+  }
+  details p {
+    max-width: 44rem;
+    margin: 0;
+    padding: 0 40px 24px 0;
+    color: var(--text-2);
+  }
+  @media (max-width: 860px) {
+    .faq-section {
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+  }
+  @media (max-width: 720px) {
+    summary {
+      padding: 16px 0;
+    }
+    h3 {
+      font-size: 16px;
+    }
+    details p {
+      padding-right: 0;
+    }
+  }
+</style>

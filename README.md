@@ -1,20 +1,41 @@
 ## 🦝✨ Website
-**🚀 Start developing**
+
+The site of [uni rakun](https://unirakun.fr), built with [Astro](https://astro.build): a static site in French (`/`) and English (`/en/`), plus the résumés of Guillaume (`/Guillaume-CRESPEL/`) and Fabien (`/Fabien-JUIF/`), each in French and in English (`/en/…`).
+
+**🚀 Start developing** (Node 22.23.4 or later, pnpm)
 
 ```sh
-  yarn start
+pnpm install
+pnpm dev
 ```
-Your site is now running at `http://localhost:8000`!
 
-**🚀 Build and serve**
+The site runs at `http://localhost:4321`.
+
+**🚀 Build and preview**
 
 ```sh
-  yarn build
-  yarn serve
+pnpm build
+pnpm preview
 ```
-Your site is now running at `http://localhost:9000`!
+
+Pushing to `master` builds the site and publishes it to GitHub Pages (`.github/workflows/deploy.yml`).
+
+**Where things live**
+
+| Path                                 | Content                                                                                                              |
+| ------------------------------------ | -------------------------------------------------------------------------------------------------------------------- |
+| `src/i18n/copy.ts`                   | Every string of the home page, in French and English                                                                 |
+| `src/data/products.ts`               | The apps shown on the home page                                                                                      |
+| `src/data/members/`                  | The résumés: who, description, skills, experiences                                                                   |
+| `src/components/home/`               | The home page sections                                                                                               |
+| `src/components/cv/Resume.astro`     | The résumé page, served in French (`src/pages/[member].astro`) and English (`src/pages/en/[member].astro`)           |
+| `src/data/members/*/translations.js` | Each résumé in its other language, keyed by the source strings                                                       |
+| `public/llms.txt`                    | The site summarised for AI assistants                                                                                |
+| `scripts/cv-pdf.mjs`                 | Prints each résumé to `dist/cv/<id>-<lang>.pdf` after the build (needs `pnpm exec playwright install chromium` once) |
+| `scripts/og-image.mjs`               | Rebuilds `public/og.png`, the image shown when the site is shared                                                    |
 
 # About uni rakun ![unirakun](https://avatars3.githubusercontent.com/u/26111459?s=50&v=4)
+
 **uni rakun** is created by two passionate french developers.
 
 Do you want to contact them ? Go to their [website](https://unirakun.fr)

@@ -1,0 +1,1350 @@
+---
+// A member's résumé, in French at /Guillaume-CRESPEL/ and /Fabien-JUIF/ (the
+// URLs of the old site) and in English under /en/. Each résumé's data is
+// written in one language (Guillaume's in French, Fabien's in English); the
+// other language comes from the member's translations.js table, keyed by the
+// source strings, with the source as fallback.
+import type { ImageMetadata } from "astro"
+import { Image } from "astro:assets"
+import rough from "roughjs"
+import Layout from "../../layouts/Layout.astro"
+import Icon from "../icons/Icon.astro"
+import Raccoon from "../Raccoon.astro"
+import Doodle from "../Doodle.astro"
+import { logosIn, techLogo } from "../../data/techLogos"
+import members from "../../data/members/index.js"
+
+interface Info {
+  text: string
+  children?: Info[]
+}
+interface Party {
+  name: string
+  color?: string
+}
+interface Experience {
+  title: string
+  client?: Party
+  for: Party
+  dates: { from: number; to?: number }
+  informations?: Info[]
+}
+
+interface Props {
+  member: (typeof members)[number]
+  lang: "fr" | "en"
+}
+
+const { member, lang } = Astro.props
+const { who, description, skills } = member
+
+const tables = import.meta.glob<{ default: Record<string, string> }>(
+  "../../data/members/*/translations.js",
+  { eager: true }
+)
+const dict =
+  lang === member.lang
+    ? undefined
+    : tables[
+        `../../data/members/${who.firstName.toLowerCase()}/translations.js`
+      ]?.default
+const tr = (text: string) => dict?.[text] ?? text
+const langOf = (text: string) => (dict?.[text] ? lang : member.lang)
+const prefix = lang === "fr" ? "" : "/en"
+const experiences = member.experiences as Experience[]
+const other = members.find((m) => m.id === member.next)!
+
+const L = {
+  fr: {
+    back: "uni rakun",
+    yearsOld: "ans",
+    experience: "ans d'expérience",
+    skills: "Compétences",
+    experiences: "Expériences",
+    onBehalf: "pour le compte de",
+    present: "aujourd'hui",
+    print: "Télécharger le PDF",
+    online: "CV en ligne",
+    theme: "Changer de thème",
+    other: (name: string) => `Voir le CV de ${name}`,
+  },
+  en: {
+    back: "uni rakun",
+    yearsOld: "years old",
+    experience: "years of experience",
+    skills: "Skills",
+    experiences: "Experiences",
+    onBehalf: "on behalf of",
+    present: "present",
+    print: "Download PDF",
+    online: "Online résumé",
+    theme: "Switch theme",
+    other: (name: string) => `See ${name}’s résumé`,
+  },
+}[lang]
+
+const images = import.meta.glob<{ default: ImageMetadata }>(
+  "../../images/*.png",
+  {
+    eager: true,
+  }
+)
+const imageFor = (name: string) => {
+  const file = name
+    .toLowerCase()
+    .replace(/\//g, "")
+    .replace(/é/g, "e")
+    .split(" ")
+    .join("")
+  return images[`../../images/${file}.png`]?.default
+}
+const photo = imageFor(`${who.firstName}-${who.name}`)!
+const otherPhoto = imageFor(`${other.who.firstName}-${other.who.name}`)!
+
+const years = (from: number) => {
+  const now = new Date()
+  const start = new Date(from)
+  let y = now.getUTCFullYear() - start.getUTCFullYear()
+  if (
+    now.getUTCMonth() < start.getUTCMonth() ||
+    (now.getUTCMonth() === start.getUTCMonth() &&
+      now.getUTCDate() < start.getUTCDate())
+  )
+    y -= 1
+  return y
+}
+const month = new Intl.DateTimeFormat(lang === "fr" ? "fr-FR" : "en-GB", {
+  year: "numeric",
+  month: "long",
+  timeZone: "UTC",
+})
+const anchor = (e: Experience) =>
+  `${e.title}-${e.dates.from}`.toLowerCase().replace(/[^a-z0-9]+/g, "-")
+const html = (text: string) => text.replace(/\n/g, "<br />")
+
+// The timeline: one continuous hand-drawn line down the whole list (a
+// rough.js curve through slightly jittered points, stretched to its height),
+// plus the start year and how long each role lasted.
+const gen = rough.generator()
+const timelinePaths = gen
+  .toPaths(
+    gen.curve(
+      Array.from({ length: 41 }, (_, k) => [
+        6 + Math.sin(k * 1.7) * 1.1 + Math.sin(k * 0.6) * 0.7,
+        k * 2.5,
+      ]) as [number, number][],
+      {
+        stroke: "ink",
+        roughness: 0.8,
+        strokeWidth: 2,
+        disableMultiStroke: true,
+        seed: 7,
+      }
+    )
+  )
+  .map((p) => p.d)
+const duration = (from: number, to?: number) => {
+  const a = new Date(from)
+  const b = to ? new Date(to) : new Date()
+  const months =
+    (b.getUTCFullYear() - a.getUTCFullYear()) * 12 +
+    (b.getUTCMonth() - a.getUTCMonth()) +
+    1
+  const y = Math.floor(months / 12)
+  const m = months % 12
+  const parts =
+    lang === "fr"
+      ? [y && `${y} an${y > 1 ? "s" : ""}`, m && `${m} mois`]
+      : [y && `${y} yr${y > 1 ? "s" : ""}`, m && `${m} mo`]
+  return parts.filter(Boolean).join(" ")
+}
+
+const socialIcon: Record<
+  string,
+  "globe" | "twitter" | "github" | "linkedin" | "malt"
+> = {
+  website: "globe",
+  twitter: "twitter",
+  github: "github",
+  linkedin: "linkedin",
+  malt: "malt",
+}
+const handle = (url: string) =>
+  url.replace(/^https?:\/\/(www\.)?/, "").replace(/\/$/, "")
+
+const fullName = `${who.firstName} ${who.name}`
+const title = `${fullName} · ${tr(who.what)} | uni rakun`
+const plainDescription = tr(description)
+  .replace(/<[^>]+>/g, "")
+  .replace(/&nbsp;/g, " ")
+  .replace(/\s+/g, " ")
+  .trim()
+const site = "https://unirakun.fr"
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "ProfilePage",
+  url: `${site}${prefix}/${member.id}/`,
+  inLanguage: lang,
+  mainEntity: {
+    "@type": "Person",
+    "@id": `${site}/#${who.firstName.toLowerCase()}`,
+    name: fullName,
+    givenName: who.firstName,
+    familyName: who.name.charAt(0) + who.name.slice(1).toLowerCase(),
+    jobTitle: tr(who.what),
+    description: plainDescription,
+    worksFor: { "@type": "Organization", name: "uni rakun", url: `${site}/` },
+    sameAs: who.socials.map((s: { url: string }) => s.url),
+    knowsAbout: skills.flatMap((g: { skills: { name: string }[] }) =>
+      g.skills.map((s) => s.name)
+    ),
+  },
+}
+---
+
+<Layout
+  lang={lang}
+  locale={lang === "fr" ? "fr_FR" : "en_US"}
+  title={title}
+  description={plainDescription.slice(0, 160)}
+  path={`${prefix}/${member.id}/`}
+  alternates={[
+    { hreflang: "fr", href: `/${member.id}/` },
+    { hreflang: "en", href: `/en/${member.id}/` },
+    { hreflang: "x-default", href: `/${member.id}/` },
+  ]}
+  jsonLd={jsonLd}
+  ogType="profile"
+>
+  <div class="cv">
+    <div class="bar no-print">
+      <nav class="wrap topbar">
+        <a class="back" href={lang === "fr" ? "/#equipe" : "/en/#equipe"}>
+          <Icon name="back" size={18} />
+          <Raccoon class="back-logo" head />
+          {L.back}
+        </a>
+        <div class="tools">
+          <nav class="lang" aria-label={lang === "fr" ? "Langue" : "Language"}>
+            <a
+              href={`/${member.id}/`}
+              hreflang="fr"
+              lang="fr"
+              aria-current={lang === "fr" ? "page" : undefined}
+            >
+              FR
+            </a>
+            <a
+              href={`/en/${member.id}/`}
+              hreflang="en"
+              lang="en"
+              aria-current={lang === "en" ? "page" : undefined}
+            >
+              EN
+            </a>
+          </nav>
+          <a
+            class="tool print"
+            href={`/cv/${member.id}-${lang}.pdf`}
+            download={`${member.id}-${lang}.pdf`}
+            aria-label={L.print}
+          >
+            <Icon name="download" size={16} />
+            <span>{L.print}</span>
+          </a>
+          <button
+            type="button"
+            class="tool square"
+            data-theme-toggle
+            aria-label={L.theme}
+          >
+            <Icon name="moon" class="moon" />
+            <Icon name="sun" class="sun" />
+          </button>
+          <a
+            class="next"
+            href={`${prefix}/${other.id}/`}
+            aria-label={L.other(`${other.who.firstName} ${other.who.name}`)}
+          >
+            <Image src={otherPhoto} alt="" width={88} height={88} />
+          </a>
+        </div>
+      </nav>
+    </div>
+
+    <div class="wrap print-brand" aria-hidden="true">
+      <span class="print-logo">
+        <Raccoon head /> <span class="marker">uni rakun</span>
+      </span>
+      <span>unirakun.fr</span>
+    </div>
+
+    <header class="wrap who">
+      <figure class="polaroid">
+        <Image
+          src={photo}
+          alt={fullName}
+          width={400}
+          height={400}
+          loading="eager"
+        />
+      </figure>
+      <div class="id">
+        <h1>{fullName}</h1>
+        <p class="what" lang={langOf(who.what)}>
+          {tr(who.what)}
+        </p>
+        <p class="ages">
+          <span data-years-from={who.birthday}>{years(who.birthday)}</span>
+          {` ${L.yearsOld} · `}
+          <span data-years-from={who.worksSince}>{years(who.worksSince)}</span>
+          {` ${L.experience}`}
+        </p>
+        <p class="print-online">
+          {L.online} : unirakun.fr{prefix}/{member.id}/
+        </p>
+        <ul class="socials">
+          {who.socials.map((s: { id: string; url: string }) => (
+            <li>
+              <a href={s.url}>
+                <Icon name={socialIcon[s.id] ?? "globe"} size={18} />
+                <span>{handle(s.url)}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </header>
+
+    <section class="wrap">
+      <div
+        class="pitch"
+        lang={langOf(description)}
+        set:html={tr(description)}
+      />
+    </section>
+
+    <section class="wrap block">
+      <h2 class="section-title">{L.skills}</h2>
+      <div class="skills">
+        {skills.map(
+          (group: {
+            name: string
+            skills: { name: string; note: number }[]
+          }) => (
+            <div class="group">
+              <h3>{tr(group.name)}</h3>
+              <ul>
+                {group.skills.map((s) => (
+                  <li>
+                    <span class="tech">
+                      {(() => {
+                        const logo = techLogo(s.name)
+                        return logo.path ? (
+                          <svg
+                            class="logo-svg"
+                            viewBox="0 0 24 24"
+                            width="18"
+                            height="18"
+                            aria-hidden="true"
+                          >
+                            <path
+                              d={logo.path}
+                              fill={logo.color ?? "currentColor"}
+                            />
+                          </svg>
+                        ) : (
+                          <span class="initials" aria-hidden="true">
+                            <Doodle
+                              name="ring"
+                              seed={s.name.length * 5}
+                              size={22}
+                            />
+                            <span>{logo.initials}</span>
+                          </span>
+                        )
+                      })()}
+                      {s.name}
+                    </span>
+                    <span class="dots" role="img" aria-label={`${s.note}/5`}>
+                      {[1, 2, 3, 4, 5].map((n) => (
+                        <span class:list={["d", { on: n <= s.note }]} />
+                      ))}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )
+        )}
+      </div>
+    </section>
+
+    <section class="wrap block experiences">
+      <h2 class="section-title">{L.experiences}</h2>
+      <ol class="index no-print">
+        {experiences.map((e) => (
+          <li>
+            <a href={`#${anchor(e)}`}>
+              <strong>{tr(e.title)}</strong>
+              <span>{(e.client ?? e.for).name}</span>
+            </a>
+          </li>
+        ))}
+      </ol>
+
+      <div class="timeline-wrap">
+        <svg
+          class="timeline-line"
+          viewBox="0 0 12 100"
+          preserveAspectRatio="none"
+          aria-hidden="true"
+        >
+          {timelinePaths.map((d) => (
+            <path d={d} />
+          ))}
+        </svg>
+        <ol class="timeline">
+          {experiences.map((e, i) => {
+            const logos = [e.client, e.for].filter(Boolean) as Party[]
+            return (
+              <li class="exp" id={anchor(e)}>
+                <div class="when-col" aria-hidden="true">
+                  <span class="year marker">
+                    {new Date(e.dates.from).getUTCFullYear()}
+                  </span>
+                  <span class="length">
+                    {duration(e.dates.from, e.dates.to)}
+                  </span>
+                </div>
+                <div class="rail" aria-hidden="true">
+                  <span class="node">
+                    <Doodle name="ring" seed={i + 91} size={28} />
+                  </span>
+                </div>
+                <div class="card">
+                  <div class="exp-head">
+                    <div>
+                      <h3 lang={langOf(e.title)}>{tr(e.title)}</h3>
+                      <p class="where">
+                        {e.client ? (
+                          <>
+                            {e.client.name}, {L.onBehalf} {e.for.name}
+                          </>
+                        ) : (
+                          e.for.name
+                        )}
+                      </p>
+                      <p class="when">
+                        {month.format(e.dates.from)} →{" "}
+                        {e.dates.to ? month.format(e.dates.to) : L.present}
+                        <span class="length-inline">
+                          {" · "}
+                          {duration(e.dates.from, e.dates.to)}
+                        </span>
+                      </p>
+                    </div>
+                    <div class="logos">
+                      {logos.map((party) => {
+                        const img = imageFor(party.name)
+                        return (
+                          <span
+                            class="logo"
+                            style={`--logo-bg: ${party.color ?? "#ffffff"}`}
+                            title={party.name}
+                          >
+                            {img ? (
+                              <Image
+                                src={img}
+                                alt={party.name}
+                                width={96}
+                                loading="eager"
+                              />
+                            ) : (
+                              <span>{party.name.slice(0, 2)}</span>
+                            )}
+                          </span>
+                        )
+                      })}
+                    </div>
+                  </div>
+                  <ul class="infos">
+                    {(e.informations ?? []).map((info) => {
+                      const isTech = /^(technolog|stack)/i.test(
+                        info.text.trim()
+                      )
+                      return (
+                        <li lang={langOf(info.text)}>
+                          <span set:html={html(tr(info.text))} />
+                          {info.children && (
+                            <ul class:list={{ tech: isTech }}>
+                              {info.children.map((child) => {
+                                const logos = isTech ? logosIn(child.text) : []
+                                return (
+                                  <li>
+                                    {logos.map((logo) => (
+                                      <svg
+                                        class="chip-logo"
+                                        viewBox="0 0 24 24"
+                                        width="13"
+                                        height="13"
+                                        role="img"
+                                        aria-label={logo.title}
+                                      >
+                                        <path
+                                          d={logo.path}
+                                          fill={logo.color ?? "currentColor"}
+                                        />
+                                      </svg>
+                                    ))}
+                                    <span set:html={html(tr(child.text))} />
+                                  </li>
+                                )
+                              })}
+                            </ul>
+                          )}
+                        </li>
+                      )
+                    })}
+                  </ul>
+                </div>
+              </li>
+            )
+          })}
+        </ol>
+      </div>
+    </section>
+
+    <footer class="wrap foot no-print">
+      <a href={`${prefix}/${other.id}/`} class="btn">
+        {L.other(other.who.firstName)} →
+      </a>
+    </footer>
+  </div>
+</Layout>
+
+<script>
+  // The PDFs are made by the build (scripts/cv-pdf.mjs). Where one is missing,
+  // as in `astro dev` before any build, open the print dialog instead.
+  for (const link of document.querySelectorAll<HTMLAnchorElement>("a.print")) {
+    link.addEventListener("click", async (event) => {
+      event.preventDefault()
+      const found = await fetch(link.href, { method: "HEAD" })
+        .then((r) => r.ok && r.headers.get("content-type")?.includes("pdf"))
+        .catch(() => false)
+      if (!found) return print()
+      const a = document.createElement("a")
+      a.href = link.href
+      a.download = link.getAttribute("download") ?? ""
+      a.click()
+    })
+  }
+
+  // Keep ages current between two builds of this static page.
+  for (const el of document.querySelectorAll<HTMLElement>(
+    "[data-years-from]"
+  )) {
+    const start = new Date(Number(el.dataset.yearsFrom))
+    const now = new Date()
+    let y = now.getUTCFullYear() - start.getUTCFullYear()
+    if (
+      now.getUTCMonth() < start.getUTCMonth() ||
+      (now.getUTCMonth() === start.getUTCMonth() &&
+        now.getUTCDate() < start.getUTCDate())
+    )
+      y -= 1
+    el.textContent = String(y)
+  }
+</script>
+
+<style>
+  /* One accent for every résumé: the site's blue pen. */
+  .cv {
+    --color: var(--accent);
+  }
+  .bar {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    border-bottom: 1px solid transparent;
+    background: var(--bg);
+  }
+  @supports (animation-timeline: scroll()) {
+    .bar {
+      animation: bar-line linear both;
+      animation-timeline: scroll();
+      animation-range: 0 48px;
+    }
+  }
+  @keyframes bar-line {
+    to {
+      border-bottom-color: var(--line);
+    }
+  }
+  .back :global(.back-logo) {
+    width: auto;
+    height: 32px;
+    color: var(--fg);
+  }
+  .topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding-block: 16px;
+  }
+  .back {
+    display: inline-flex;
+    white-space: nowrap;
+    align-items: center;
+    gap: 8px;
+    min-height: 44px;
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--text-2);
+  }
+  .tools {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .lang {
+    display: flex;
+    gap: 2px;
+    padding: 2px;
+    border: 1px solid var(--line);
+    border-radius: var(--r-control);
+    font-size: 13px;
+    font-weight: 500;
+  }
+  .lang a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 36px;
+    height: 32px;
+    border-radius: 8px;
+    color: var(--muted);
+  }
+  .lang a:hover {
+    color: var(--fg);
+  }
+  .lang a[aria-current="page"] {
+    background: var(--raised);
+    color: var(--fg);
+  }
+  /* Every control of the top bar is 38px tall, like the FR/EN switch. */
+  .tool {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    height: 38px;
+    padding: 0 14px;
+    border: 1px solid var(--line);
+    border-radius: var(--r-control);
+    background: var(--surface);
+    color: var(--fg);
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1;
+    white-space: nowrap;
+    transition: background-color var(--fast) var(--ease);
+  }
+  .tool:hover {
+    background: var(--raised);
+  }
+  .square {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    padding: 0;
+  }
+  .square :global(.sun) {
+    display: none;
+  }
+  :global([data-theme="dark"]) .square :global(.sun) {
+    display: block;
+  }
+  :global([data-theme="dark"]) .square :global(.moon) {
+    display: none;
+  }
+  .next :global(img) {
+    display: block;
+    width: 38px;
+    height: 38px;
+    border: 1px solid var(--line);
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: center top;
+    background: var(--surface);
+    transition: transform 0.2s ease;
+  }
+  .next:hover :global(img) {
+    transform: rotate(-8deg) scale(1.08);
+  }
+
+  .who {
+    display: grid;
+    grid-template-columns: 220px minmax(0, 1fr);
+    align-items: center;
+    gap: 24px 48px;
+    padding-block: 32px 48px;
+  }
+  .polaroid {
+    margin: 0;
+  }
+  .polaroid :global(img) {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1;
+    object-fit: cover;
+    object-position: center top;
+    border-radius: var(--r-card);
+    background: var(--raised);
+  }
+  h1 {
+    margin: 0;
+    font-size: clamp(36px, 5vw, 64px);
+    font-weight: 500;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+  }
+  .what {
+    margin: 8px 0 0;
+    font-size: 22px;
+    font-weight: 500;
+    color: var(--color);
+  }
+  :global([data-theme="dark"]) .what {
+    color: var(--color);
+  }
+  .ages {
+    margin: 8px 0 0;
+    color: var(--muted);
+  }
+  .socials {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 20px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+  .socials a {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 44px;
+    padding: 0 16px;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    background: var(--surface);
+    font-size: 15px;
+    font-weight: 500;
+    transition: background-color var(--fast) var(--ease);
+  }
+  .socials a:hover {
+    background: var(--raised);
+  }
+
+  .pitch {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 32px;
+    border: 1px solid var(--line);
+    border-radius: var(--r-card);
+    background: var(--surface);
+    font-size: 18px;
+    line-height: 1.65;
+  }
+  .pitch :global(b) {
+    font-weight: 600;
+  }
+  .pitch :global(b) {
+    color: var(--color);
+  }
+  :global([data-theme="dark"]) .pitch :global(b) {
+    color: var(--color);
+  }
+
+  .block {
+    padding-block: 72px 0;
+  }
+  .skills {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 220px), 1fr));
+    gap: 20px;
+  }
+  .group {
+    padding: 20px;
+    border: 1px solid var(--line);
+    border-radius: 18px;
+  }
+  .group h3 {
+    margin: 0 0 12px;
+    font-size: 15px;
+    font-weight: 600;
+  }
+  .group h3::first-letter {
+    text-transform: uppercase;
+  }
+  .group ul {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .tech {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .logo-svg {
+    flex: none;
+    color: var(--fg);
+  }
+  .initials {
+    position: relative;
+    display: inline-flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    margin: -2px;
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    color: var(--text-2);
+  }
+  .initials :global(.doodle-mark) {
+    position: absolute;
+    inset: 0;
+  }
+  .group li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    font-weight: 500;
+  }
+  .dots {
+    display: inline-flex;
+    gap: 4px;
+  }
+  .d {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--raised);
+  }
+  .d.on {
+    background: var(--color);
+  }
+  :global([data-theme="dark"]) .d.on {
+    background: var(--color);
+  }
+
+  .index {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr));
+    gap: 8px 20px;
+    margin: 0 0 48px;
+    padding: 0;
+    list-style: none;
+  }
+  .index a {
+    display: flex;
+    flex-direction: column;
+    padding: 8px 12px;
+    border-radius: 12px;
+    transition: background 0.15s ease;
+  }
+  .index a:hover {
+    background: var(--surface);
+  }
+  .index span {
+    font-size: 14px;
+    color: var(--muted);
+  }
+
+  .timeline {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .exp {
+    display: grid;
+    grid-template-columns: 88px 28px minmax(0, 1fr);
+    column-gap: 16px;
+    scroll-margin-top: 88px;
+  }
+  .when-col {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 4px;
+    padding-top: 24px;
+    text-align: right;
+  }
+  .year {
+    font-size: 24px;
+    line-height: 1;
+  }
+  .length {
+    font-size: 13px;
+    line-height: 1.3;
+    color: var(--muted);
+  }
+  .length-inline {
+    display: none;
+  }
+  .rail {
+    position: relative;
+  }
+  .timeline-wrap {
+    position: relative;
+  }
+  /* From the first ring to the end of the last card; the rings sit on top. */
+  .timeline-line {
+    position: absolute;
+    top: 36px;
+    left: 112px;
+    width: 12px;
+    height: calc(100% - 76px);
+    overflow: visible;
+    pointer-events: none;
+  }
+  .timeline-line path {
+    fill: none;
+    stroke: var(--fg);
+    stroke-width: 2;
+    stroke-linecap: round;
+    opacity: 0.35;
+    vector-effect: non-scaling-stroke;
+  }
+  .node {
+    position: absolute;
+    top: 22px;
+    left: 0;
+    display: flex;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--bg);
+    color: var(--accent);
+  }
+  .card {
+    margin-bottom: 40px;
+    padding: 24px 28px;
+    border: 1px solid var(--line);
+    border-radius: var(--r-card);
+    background: var(--surface);
+  }
+  /* The stroke draws itself and the ring pops in as each role scrolls by. */
+  @supports (animation-timeline: view()) {
+    .timeline-line {
+      animation: reveal linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 100%;
+    }
+    .node {
+      animation: pop linear both;
+      animation-timeline: view();
+      animation-range: entry 10% entry 80%;
+    }
+  }
+  @keyframes draw {
+    from {
+      stroke-dashoffset: 1;
+    }
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+  @keyframes reveal {
+    from {
+      clip-path: inset(0 0 100% 0);
+    }
+    to {
+      clip-path: inset(0 0 0 0);
+    }
+  }
+  @keyframes pop {
+    from {
+      opacity: 0;
+      transform: scale(0.6) rotate(-30deg);
+    }
+  }
+  .exp-head {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 12px 24px;
+  }
+  .exp h3 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 1.2;
+  }
+  .where {
+    margin: 4px 0 0;
+    font-weight: 500;
+  }
+  .when {
+    margin: 2px 0 0;
+    color: var(--muted);
+    font-size: 15px;
+  }
+  .logos {
+    display: flex;
+  }
+  .logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    height: 56px;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    border-radius: 50%;
+    background: var(--logo-bg);
+    color: #ffffff;
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+  .logo + .logo {
+    margin-left: -12px;
+  }
+  .logo :global(img) {
+    width: 72%;
+    height: auto;
+  }
+  .infos {
+    margin: 16px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+  .infos > li {
+    margin-top: 8px;
+  }
+  .infos ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 8px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+  .print-brand,
+  .print-online {
+    display: none;
+  }
+  .infos ul.tech li {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .chip-logo {
+    flex: none;
+    color: var(--fg);
+  }
+  .infos ul li {
+    padding: 2px 8px;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 500;
+  }
+  .foot {
+    display: flex;
+    justify-content: center;
+    padding-block: 24px 64px;
+  }
+
+  @media (max-width: 720px) {
+    .print {
+      width: 38px;
+      padding: 0;
+    }
+    .print span {
+      display: none;
+    }
+    .who {
+      grid-template-columns: 130px minmax(0, 1fr);
+      gap: 16px 20px;
+      padding-block: 8px 32px;
+    }
+    .what {
+      font-size: 17px;
+    }
+    .socials {
+      grid-column: 1 / -1;
+    }
+    .socials span {
+      display: none;
+    }
+    .socials a {
+      width: 44px;
+      justify-content: center;
+      padding: 0;
+    }
+    .pitch {
+      padding: 20px;
+      font-size: 17px;
+    }
+    .block {
+      padding-top: 48px;
+    }
+    .index {
+      display: none;
+    }
+    .exp {
+      grid-template-columns: 20px minmax(0, 1fr);
+      column-gap: 12px;
+    }
+    .when-col {
+      display: none;
+    }
+    .length-inline {
+      display: inline;
+      white-space: nowrap;
+    }
+    .timeline-line {
+      left: 4px;
+      top: 32px;
+      height: calc(100% - 56px);
+    }
+    .node {
+      top: 20px;
+      left: -2px;
+      width: 24px;
+      height: 24px;
+    }
+    .node :global(svg) {
+      width: 24px;
+      height: 24px;
+    }
+    .card {
+      margin-bottom: 24px;
+      padding: 16px;
+    }
+    .exp h3 {
+      font-size: 20px;
+    }
+  }
+
+  /* The PDF (see scripts/cv-pdf.mjs, which prints these pages with
+     Playwright): the site's paper and ink, the profile and skills on the
+     first page, then the experiences flowing without big gaps. */
+  @media print {
+    .cv {
+      --bg: #ffffff;
+      --surface: #f7f5f0;
+      --raised: #ece9e2;
+      --fg: #1f1c18;
+      --text-2: #4d4740;
+      --muted: #6f685f;
+      --line: rgb(31 28 24 / 0.14);
+      --accent: #3149c9;
+      --color: #3149c9;
+      font-size: 11.5px;
+      line-height: 1.5;
+      print-color-adjust: exact;
+      -webkit-print-color-adjust: exact;
+    }
+    .cv :global(*) {
+      animation: none !important;
+      transition: none !important;
+    }
+    .wrap {
+      max-width: none;
+      padding-inline: 0;
+    }
+    .print-brand {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 18px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--line);
+      font-size: 10px;
+      color: var(--muted);
+    }
+    .print-logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--fg);
+    }
+    .print-logo :global(svg) {
+      width: auto;
+      height: 26px;
+    }
+    .print-logo .marker {
+      font-size: 15px;
+    }
+    .print-online {
+      display: block;
+      margin: 4px 0 0;
+      font-size: 10px;
+      color: var(--muted);
+    }
+    .who {
+      grid-template-columns: 112px minmax(0, 1fr);
+      gap: 20px;
+      padding-block: 0 16px;
+      break-inside: avoid;
+    }
+    h1 {
+      font-size: 30px;
+    }
+    .what {
+      margin-top: 4px;
+      font-size: 15px;
+    }
+    .ages {
+      font-size: 11px;
+    }
+    .socials {
+      gap: 6px;
+      margin-top: 10px;
+    }
+    .socials a {
+      min-height: 0;
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-size: 10px;
+    }
+    .socials span {
+      display: inline !important;
+    }
+    .pitch {
+      max-width: none;
+      padding: 14px 16px;
+      border-radius: 10px;
+      font-size: 12px;
+      line-height: 1.6;
+    }
+    .block {
+      padding-top: 22px;
+    }
+    .section-title {
+      margin-bottom: 12px;
+      font-size: 24px;
+      break-after: avoid;
+    }
+    .skills {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+    .group {
+      padding: 10px 12px;
+      border-radius: 10px;
+      background: var(--surface);
+      break-inside: avoid;
+    }
+    .group h3 {
+      margin-bottom: 6px;
+      font-size: 11.5px;
+    }
+    .group ul {
+      gap: 3px;
+    }
+    .group li {
+      font-size: 11px;
+    }
+    .logo-svg {
+      width: 14px;
+      height: 14px;
+    }
+    .d {
+      width: 7px;
+      height: 7px;
+    }
+    .experiences {
+      padding-top: 26px;
+    }
+    .exp {
+      grid-template-columns: 60px 22px minmax(0, 1fr);
+      column-gap: 10px;
+    }
+    .when-col {
+      padding-top: 14px;
+    }
+    .year {
+      font-size: 17px;
+    }
+    .length {
+      font-size: 9.5px;
+    }
+    .node {
+      top: 13px;
+      width: 22px;
+      height: 22px;
+    }
+    .node :global(svg) {
+      width: 22px;
+      height: 22px;
+    }
+    .timeline-line {
+      top: 24px;
+      left: 75px;
+      height: calc(100% - 36px);
+    }
+    .card {
+      margin-bottom: 12px;
+      padding: 12px 16px;
+      border-radius: 12px;
+      break-inside: auto;
+      /* A card split across two pages keeps its frame on both. */
+      -webkit-box-decoration-break: clone;
+      box-decoration-break: clone;
+    }
+    .exp-head {
+      break-inside: avoid;
+      break-after: avoid;
+    }
+    .exp h3 {
+      font-size: 14.5px;
+    }
+    .where {
+      font-size: 11.5px;
+    }
+    .when {
+      font-size: 10.5px;
+    }
+    .logo {
+      width: 34px;
+      height: 34px;
+    }
+    .infos {
+      margin-top: 8px;
+    }
+    .infos > li {
+      margin-top: 6px;
+      break-inside: avoid;
+    }
+    .infos ul {
+      gap: 4px;
+      margin-top: 4px;
+    }
+    .infos ul li {
+      padding: 1px 6px;
+      border-radius: 5px;
+      font-size: 9.5px;
+    }
+    p,
+    .infos li {
+      orphans: 3;
+      widows: 3;
+    }
+  }
+</style>

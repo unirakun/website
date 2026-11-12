@@ -1,4 +1,4 @@
-module.exports = [
+export default [
   {
     name: "langages",
     skills: [
@@ -59,7 +59,7 @@ module.exports = [
     ],
   },
   {
-    name: "tools",
+    name: "outils",
     skills: [
       {
         name: "ViteJS",
@@ -80,7 +80,7 @@ module.exports = [
     ],
   },
   {
-    name: "database",
+    name: "bases de données",
     skills: [
       {
         name: "MongoDB",

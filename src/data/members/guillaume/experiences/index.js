@@ -1,17 +1,21 @@
-const cgi = require("./cgi")
-const euriware = require("./euriware")
-const siao = require("./siao")
-const contentFlow = require("./contentFlow")
-const santeclair = require("./santeclair")
-const metroscopeArchi = require("./metroscopeArchi")
-const metroscopeDev = require("./metroscopeDev")
-const darvaFormation = require("./darvaFormation")
-const darvaBatchDatalake = require("./darvaBatchDatalake")
-const darvaUI = require("./darvaUI")
-const sparklane = require("./sparklane")
-const sgmarket = require("./sgmarket")
+import cgi from "./cgi.js"
+import euriware from "./euriware.js"
+import siao from "./siao.js"
+import contentFlow from "./contentFlow.js"
+import santeclair from "./santeclair.js"
+import metroscopeArchi from "./metroscopeArchi.js"
+import metroscopeDev from "./metroscopeDev.js"
+import darvaFormation from "./darvaFormation.js"
+import darvaBatchDatalake from "./darvaBatchDatalake.js"
+import darvaUI from "./darvaUI.js"
+import sparklane from "./sparklane.js"
+import sgmarket from "./sgmarket.js"
+import decathlon from "./decathlon.js"
+import cockpitAgriculture from "./cockpitAgriculture.js"
+import kojimo from "./kojimo.js"
+import acolad from "./acolad.js"
 
-module.exports = [
+export default [
   cgi,
   contentFlow,
   darvaBatchDatalake,
@@ -24,7 +28,13 @@ module.exports = [
   siao,
   sparklane,
   sgmarket,
-].sort((expA, expB) => {
-  if (expA.dates.to === undefined) return 1
-  return expB.dates.to - expA.dates.to
-})
+  decathlon,
+  cockpitAgriculture,
+  kojimo,
+  acolad,
+].sort(
+  // Most recent first; a role without an end date is ongoing, so it comes first.
+  (expA, expB) =>
+    (expB.dates.to ?? Infinity) - (expA.dates.to ?? Infinity) ||
+    expB.dates.from - expA.dates.from
+)

@@ -1,53 +1,35 @@
 {
-  "name": "rakun_website",
+  "name": "unirakun-website",
   "private": true,
-  "description": "A rakun website",
-  "version": "0.1.0",
+  "type": "module",
+  "description": "uni rakun: custom software and AI-powered apps, by Guillaume Crespel and Fabien Juif",
+  "version": "1.0.0",
   "author": "Guillaume CRESPEL @rakun",
+  "license": "MIT",
+  "packageManager": "pnpm@10.13.1",
+  "engines": {
+    "node": ">=22.23.4"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build && node scripts/cv-pdf.mjs",
+    "preview": "astro preview",
+    "format": "prettier --write .",
+    "build:site": "astro build"
+  },
   "dependencies": {
-    "babel-plugin-styled-components": "^2.1.4",
-    "dayjs": "^1.11.10",
-    "gatsby": "^5.13.2",
-    "gatsby-image": "^3.11.0",
-    "gatsby-plugin-crisp-chat": "^3.2.2",
-    "gatsby-plugin-google-analytics": "^5.13.1",
-    "gatsby-plugin-manifest": "^5.13.1",
-    "gatsby-plugin-react-helmet": "^6.13.1",
-    "gatsby-plugin-react-svg": "^3.3.0",
-    "gatsby-plugin-remove-serviceworker": "^1.0.0",
-    "gatsby-plugin-sharp": "^5.13.1",
-    "gatsby-plugin-sitemap": "^6.13.1",
-    "gatsby-plugin-styled-components": "^6.13.1",
-    "gatsby-plugin-web-font-loader": "^1.0.4",
-    "gatsby-source-filesystem": "^5.13.1",
-    "gatsby-transformer-sharp": "^5.13.1",
-    "normalize.css": "^8.0.1",
-    "prop-types": "^15.8.1",
-    "react": "^18.2.0",
-    "react-anchor-link-smooth-scroll": "^1.0.12",
-    "react-dom": "^18.2.0",
-    "react-helmet": "^6.1.0",
-    "react-spring": "^9.7.3",
-    "react-star-rating-component": "^1.4.1",
-    "styled-components": "^6.1.8"
+    "@astrojs/sitemap": "3.7.4",
+    "@fontsource-variable/mulish": "5.3.0",
+    "@fontsource/permanent-marker": "5.3.0",
+    "astro": "7.4.11",
+    "roughjs": "4.6.6",
+    "sharp": "0.35.5"
   },
   "devDependencies": {
-    "@babel/plugin-syntax-dynamic-import": "^7.8.3",
-    "prettier": "^3.2.4"
-  },
-  "keywords": [
-    "gatsby",
-    "rakun"
-  ],
-  "workspaces": [
-    "src"
-  ],
-  "license": "MIT",
-  "scripts": {
-    "build": "gatsby build",
-    "develop": "gatsby develop",
-    "format": "prettier --write src/**/*.{js,jsx}",
-    "start": "npm run develop",
-    "serve": "gatsby serve"
+    "playwright": "1.65.0",
+    "prettier": "3.10.1",
+    "prettier-plugin-astro": "1.1.2",
+    "simple-icons": "16.37.0"
   }
 }
