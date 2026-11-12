@@ -1,7 +1,8 @@
 ---
-// A "Share" button. On phones it opens the system share sheet (WhatsApp,
-// Messages, Mail…); elsewhere a small menu offers copy link, WhatsApp,
-// LinkedIn and e-mail. Shares the page's public URL on unirakun.fr.
+// A "Share" button. It opens a menu to copy the link or send it on WhatsApp,
+// LinkedIn or by e-mail: a small dropdown on wide screens, a sheet sliding up
+// from the bottom on phones. Where the device has a system share sheet, an
+// "Other apps" entry opens it. Shares the page's public URL on unirakun.fr.
 import Icon from "./icons/Icon.astro"
 
 interface Props {
@@ -32,6 +33,7 @@ const L = {
     copy: "Copier le lien",
     copied: "Lien copié",
     email: "E-mail",
+    more: "Autres applications",
   },
   en: {
     share: "Share",
@@ -39,6 +41,7 @@ const L = {
     copy: "Copy link",
     copied: "Link copied",
     email: "Email",
+    more: "Other apps",
   },
 }[lang]
 
@@ -69,36 +72,51 @@ const links = {
     {variant === "button" && <span>{L.share}</span>}
   </button>
   <div class="menu" id={id} popover aria-label={L.menu}>
+    <span class="handle" aria-hidden="true"></span>
+    <p class="sheet-title">{L.menu}</p>
     <button type="button" class="item" data-copy>
-      <Icon name="link" size={16} />
+      <Icon name="link" size={18} />
       <span data-copy-label>{L.copy}</span>
       <span class="done" data-copied hidden>
         {L.copied}
       </span>
     </button>
     <a class="item" href={links.whatsapp} target="_blank" rel="noopener">
-      <Icon name="whatsapp" size={16} />
+      <Icon name="whatsapp" size={18} />
       WhatsApp
     </a>
     <a class="item" href={links.linkedin} target="_blank" rel="noopener">
-      <Icon name="linkedin" size={16} />
+      <Icon name="linkedin" size={18} />
       LinkedIn
     </a>
     <a class="item" href={links.email}>
-      <Icon name="mail" size={16} />
+      <Icon name="mail" size={18} />
       {L.email}
     </a>
+    <button type="button" class="item" data-native hidden>
+      <Icon name="share" size={18} />
+      {L.more}
+    </button>
   </div>
 </div>
 
 <script>
+  const narrow = matchMedia("(max-width: 720px)")
+
   for (const root of document.querySelectorAll<HTMLElement>("[data-share]")) {
     const trigger = root.querySelector<HTMLButtonElement>(".trigger")!
     const menu = root.querySelector<HTMLElement>(".menu")!
     const { url = "", title = "", text = "" } = root.dataset
-    const touch = matchMedia("(pointer: coarse)").matches
 
+    // Wide screens: a dropdown under the button. Phones: a bottom sheet.
     const place = () => {
+      const sheet = narrow.matches
+      menu.classList.toggle("sheet", sheet)
+      if (sheet) {
+        menu.style.left = ""
+        menu.style.top = ""
+        return
+      }
       const r = trigger.getBoundingClientRect()
       const width = menu.offsetWidth
       const left = Math.min(
@@ -114,27 +132,32 @@ const links = {
       menu.style.top = `${top}px`
     }
 
-    trigger.addEventListener("click", async () => {
-      // Phones: the system share sheet lists the apps people actually use.
-      if (touch && navigator.share) {
-        try {
-          await navigator.share({ title, text, url })
-          return
-        } catch (error) {
-          if ((error as DOMException).name === "AbortError") return
-        }
+    trigger.addEventListener("click", () => menu.togglePopover())
+    menu.addEventListener("beforetoggle", (event) => {
+      if ((event as ToggleEvent).newState === "open") {
+        menu.classList.toggle("sheet", narrow.matches)
       }
-      menu.togglePopover()
     })
     menu.addEventListener("toggle", (event) => {
       const open = (event as ToggleEvent).newState === "open"
       trigger.setAttribute("aria-expanded", String(open))
       if (open) place()
     })
-    addEventListener("resize", () => menu.matches(":popover-open") && place())
-    addEventListener("scroll", () => menu.matches(":popover-open") && place(), {
-      passive: true,
-    })
+    const follow = () => menu.matches(":popover-open") && place()
+    addEventListener("resize", follow)
+    addEventListener("scroll", follow, { passive: true })
+
+    // The device's own share sheet, where there is one.
+    const native = root.querySelector<HTMLButtonElement>("[data-native]")!
+    if (navigator.share) {
+      native.hidden = false
+      native.addEventListener("click", async () => {
+        menu.hidePopover()
+        try {
+          await navigator.share({ title, text, url })
+        } catch {}
+      })
+    }
 
     const copy = root.querySelector<HTMLButtonElement>("[data-copy]")!
     const label = root.querySelector<HTMLElement>("[data-copy-label]")!
@@ -196,6 +219,8 @@ const links = {
     width: 36px;
     padding: 0;
   }
+
+  /* Dropdown (wide screens) */
   .menu {
     position: fixed;
     inset: auto;
@@ -212,18 +237,60 @@ const links = {
     display: flex;
     flex-direction: column;
     gap: 2px;
-    animation: pop-in var(--fast) var(--ease);
+    animation: drop-in var(--fast) var(--ease);
   }
-  @keyframes pop-in {
+  @keyframes drop-in {
     from {
       opacity: 0;
       transform: translateY(-4px);
     }
   }
+  .handle,
+  .sheet-title {
+    display: none;
+  }
+
+  /* Bottom sheet (phones) */
+  .menu.sheet {
+    inset: auto 0 0 0;
+    width: 100%;
+    max-width: none;
+    min-width: 0;
+    padding: 8px 12px calc(16px + env(safe-area-inset-bottom));
+    border-width: 1px 0 0;
+    border-radius: 20px 20px 0 0;
+  }
+  .menu.sheet:popover-open {
+    animation: sheet-up 260ms var(--ease);
+  }
+  .menu.sheet::backdrop {
+    background: rgb(0 0 0 / 0.35);
+  }
+  @keyframes sheet-up {
+    from {
+      transform: translateY(100%);
+    }
+  }
+  .sheet .handle {
+    display: block;
+    width: 40px;
+    height: 4px;
+    margin: 4px auto 8px;
+    border-radius: 2px;
+    background: var(--line);
+  }
+  .sheet .sheet-title {
+    display: block;
+    margin: 0;
+    padding: 4px 12px 8px;
+    font-size: 15px;
+    font-weight: 600;
+  }
+
   .item {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 12px;
     min-height: 40px;
     padding: 0 12px;
     border: 0;
@@ -235,12 +302,19 @@ const links = {
     text-align: left;
     transition: background-color var(--fast) var(--ease);
   }
+  .sheet .item {
+    min-height: 52px;
+    font-size: 16px;
+  }
   .item:hover,
   .item:focus-visible {
     background: var(--raised);
   }
   .item :global(svg) {
     color: var(--text-2);
+  }
+  .item[hidden] {
+    display: none;
   }
   .done {
     color: var(--accent);
