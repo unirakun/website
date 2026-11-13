@@ -1,14 +1,16 @@
 ---
 // A headline whose *starred* words get the blue pen underline, the site's
-// signature, and whose ~tilded~ words get struck through in red pen.
-// `draw` animates the underline once, for the hero.
+// signature, and whose ~tilded~ words get struck through in red pen. The
+// marks draw themselves as they scroll into view; `delay` (ms) holds them
+// back, for the hero, which first rises into place.
 interface Props {
   text: string
-  as?: "h1" | "h2" | "h3" | "span"
+  as?: "h1" | "h2" | "h3" | "p" | "span"
   class?: string
-  draw?: boolean
+  delay?: number
 }
-const { text, as: Tag = "h2", class: className, draw = false } = Astro.props
+const { text, as: Tag = "h2", class: className, delay } = Astro.props
+const style = delay === undefined ? undefined : `--mark-delay: ${delay}ms`
 const parts = text
   .split(/(\*[^*]+\*|~[^~]+~)/)
   .filter(Boolean)
@@ -24,7 +26,9 @@ const parts = text
 <Tag class={className}>
   {parts.map((part) =>
     part.mark ? (
-      <span class:list={[part.mark, { draw }]}>{part.text}</span>
+      <span class={part.mark} style={style}>
+        {part.text}
+      </span>
     ) : (
       part.text
     )

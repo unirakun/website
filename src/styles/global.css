@@ -180,25 +180,29 @@ button {
   mask: var(--pen) no-repeat center / 100% 100%;
 }
 /* ~Struck~ words: the same pen stroke, in red, across the middle and a
-   little slanted. It draws itself once it scrolls into view. */
+   little slanted. */
 .key.strike::after {
   bottom: 0.3em;
   height: 0.32em;
   background: var(--red-pen);
   transform: rotate(-3deg);
 }
-@supports (view-timeline-name: --strike) {
-  .key.strike {
-    view-timeline: --strike block;
-  }
-  .key.strike::after {
-    animation: pen linear both;
-    animation-timeline: --strike;
-    animation-range: entry 60% cover 40%;
-  }
+/* Every mark draws itself, left to right like a pen, once it scrolls into
+   view (the marks script in Layout.astro adds .is-drawn). The head script
+   sets .marks-ready only when motion is welcome, so without it the marks
+   are simply there. The strike comes a beat later, as the punchline. */
+.marks-ready .key:not(.is-drawn)::after {
+  clip-path: inset(0 100% 0 0);
 }
-.key.draw::after {
-  animation: pen 700ms 300ms var(--ease) both;
+.key.is-drawn::after {
+  animation: pen 650ms var(--mark-delay, 150ms) cubic-bezier(0.6, 0, 0.3, 1)
+    both;
+}
+.key.strike {
+  --mark-delay: 450ms;
+}
+.key.strike.is-drawn::after {
+  animation-duration: 450ms;
 }
 @keyframes pen {
   from {

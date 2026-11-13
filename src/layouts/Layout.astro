@@ -98,6 +98,14 @@ const ogImage = new URL("/og.png", site).href
             : "light"
         }
         document.documentElement.dataset.theme = theme
+        // The pen marks draw themselves on scroll (marks script below): hide
+        // them before the first paint, only where they will be drawn.
+        if (
+          "IntersectionObserver" in window &&
+          !matchMedia("(prefers-reduced-motion: reduce)").matches
+        ) {
+          document.documentElement.classList.add("marks-ready")
+        }
       })()
     </script>
   </head>
@@ -124,6 +132,23 @@ const ogImage = new URL("/og.png", site).href
           } catch {}
           sync()
         })
+      }
+
+      // Pen marks (underlines and strikes of KeyText): each draws itself once,
+      // when it has scrolled well into view. The head script only sets
+      // .marks-ready, which hides them until then, where motion is welcome.
+      if (document.documentElement.classList.contains("marks-ready")) {
+        const marks = new IntersectionObserver(
+          (entries) => {
+            for (const entry of entries) {
+              if (!entry.isIntersecting) continue
+              entry.target.classList.add("is-drawn")
+              marks.unobserve(entry.target)
+            }
+          },
+          { rootMargin: "0px 0px -15% 0px" }
+        )
+        document.querySelectorAll(".key").forEach((mark) => marks.observe(mark))
       }
 
       // The raccoon's pupils look at the pointer. Each pupil is aimed from its
