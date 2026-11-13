@@ -291,34 +291,49 @@ const line = draw(
     color: var(--text-2);
   }
 
-  /* Each sketch draws itself as it comes into view (all screens). */
-  @supports (animation-timeline: view()) {
-    .doodle .stroke {
-      stroke-dasharray: 1;
-      animation: draw linear both;
-      animation-timeline: view();
-      animation-range: entry 10% cover 40%;
-    }
-    .doodle .hatch,
-    .doodle .dot {
-      animation: appear linear both;
-      animation-timeline: view();
-      animation-range: entry 30% cover 45%;
-    }
-    .line-pen {
-      stroke-dasharray: 1;
-      animation: draw linear both;
-      animation-timeline: view();
-      animation-range: entry 0% cover 50%;
+  /* Each sketch draws itself as it comes into view. One timeline per sketch
+     (on its <svg>) so all its strokes draw together. The timelines ignore
+     the page's scroll-padding (room for the sticky header), which would
+     otherwise shift them. */
+  @supports (view-timeline-name: --sketch) {
+    @media (prefers-reduced-motion: no-preference) {
+      .doodle {
+        view-timeline: --sketch block;
+        view-timeline-inset: 0;
+      }
+      .line {
+        view-timeline: --rule block;
+        view-timeline-inset: 0;
+      }
+      .doodle .stroke {
+        stroke-dasharray: 1;
+        animation: draw linear both;
+        animation-timeline: --sketch;
+        animation-range: entry 20% cover 50%;
+      }
+      .doodle .hatch,
+      .doodle .dot {
+        animation: appear linear both;
+        animation-timeline: --sketch;
+        animation-range: cover 38% cover 54%;
+      }
+      .line-pen {
+        stroke-dasharray: 1;
+        animation: draw linear both;
+        animation-timeline: --rule;
+        animation-range: entry 0% cover 50%;
+      }
     }
   }
 
-  /* Wide screens: pin the section and play the four steps in order. */
+  /* Wide screens tall enough to hold the whole section: pin it and play the
+     four steps in order, one after the other, once it is pinned. */
   @supports (view-timeline-name: --how) {
-    @media (min-width: 961px) and (prefers-reduced-motion: no-preference) {
+    @media (min-width: 961px) and (min-height: 600px) and (prefers-reduced-motion: no-preference) {
       .track {
-        height: 260vh;
+        height: 340vh;
         view-timeline: --how block;
+        view-timeline-inset: 0;
       }
       .stage {
         position: sticky;
@@ -327,12 +342,17 @@ const line = draw(
         min-height: 100vh;
         flex-direction: column;
         justify-content: center;
-        padding-block: 96px 48px;
+        padding-block: 88px 32px;
+      }
+      /* The sketches shrink on short windows so the steps' text stays on
+         screen (about 500px go to the title, the text and the margins). */
+      .doodle {
+        width: min(100%, calc((100vh - 500px) * 220 / 170));
       }
       .line-pen {
         animation: draw linear both;
         animation-timeline: --how;
-        animation-range: contain 0% contain 88%;
+        animation-range: contain 4% contain 88%;
       }
       .step {
         animation: wake linear both;
@@ -351,45 +371,48 @@ const line = draw(
         animation: appear linear both;
         animation-timeline: --how;
       }
+      /* contain 0% is the moment the section pins. Each step gets 22% of
+         the pinned scroll, after a short pause; the last 12% hold the
+         finished section before it scrolls on. */
       .step:nth-child(1),
       .step:nth-child(1) .num {
-        animation-range: contain 0% contain 6%;
+        animation-range: contain 4% contain 9%;
       }
       .step:nth-child(1) .doodle .stroke {
-        animation-range: contain 0% contain 18%;
+        animation-range: contain 4% contain 19%;
       }
       .step:nth-child(1) .doodle :is(.hatch, .dot) {
-        animation-range: contain 14% contain 20%;
+        animation-range: contain 15% contain 21%;
       }
       .step:nth-child(2),
       .step:nth-child(2) .num {
-        animation-range: contain 22% contain 28%;
+        animation-range: contain 26% contain 31%;
       }
       .step:nth-child(2) .doodle .stroke {
-        animation-range: contain 22% contain 40%;
+        animation-range: contain 26% contain 41%;
       }
       .step:nth-child(2) .doodle :is(.hatch, .dot) {
-        animation-range: contain 36% contain 42%;
+        animation-range: contain 37% contain 43%;
       }
       .step:nth-child(3),
       .step:nth-child(3) .num {
-        animation-range: contain 44% contain 50%;
+        animation-range: contain 48% contain 53%;
       }
       .step:nth-child(3) .doodle .stroke {
-        animation-range: contain 44% contain 62%;
+        animation-range: contain 48% contain 63%;
       }
       .step:nth-child(3) .doodle :is(.hatch, .dot) {
-        animation-range: contain 58% contain 64%;
+        animation-range: contain 59% contain 65%;
       }
       .step:nth-child(4),
       .step:nth-child(4) .num {
-        animation-range: contain 66% contain 72%;
+        animation-range: contain 70% contain 75%;
       }
       .step:nth-child(4) .doodle .stroke {
-        animation-range: contain 66% contain 84%;
+        animation-range: contain 70% contain 85%;
       }
       .step:nth-child(4) .doodle :is(.hatch, .dot) {
-        animation-range: contain 80% contain 86%;
+        animation-range: contain 81% contain 87%;
       }
     }
   }
