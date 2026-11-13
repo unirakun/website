@@ -294,7 +294,12 @@ const line = draw(
   /* Each sketch draws itself as it comes into view. One timeline per sketch
      (on its <svg>) so all its strokes draw together. The timelines ignore
      the page's scroll-padding (room for the sticky header), which would
-     otherwise shift them. */
+     otherwise shift them.
+     The animations are written in longhands, never with the `animation`
+     shorthand: the production minifier folds animation-timeline into the
+     shorthand, which browsers reject, dropping the whole animation (dev is
+     not minified, so it only breaks once deployed). scripts/check-css.mjs
+     fails the build if that happens again. */
   @supports (view-timeline-name: --sketch) {
     @media (prefers-reduced-motion: no-preference) {
       .doodle {
@@ -307,19 +312,25 @@ const line = draw(
       }
       .doodle .stroke {
         stroke-dasharray: 1;
-        animation: draw linear both;
+        animation-name: draw;
+        animation-timing-function: linear;
+        animation-fill-mode: both;
         animation-timeline: --sketch;
         animation-range: entry 20% cover 50%;
       }
       .doodle .hatch,
       .doodle .dot {
-        animation: appear linear both;
+        animation-name: appear;
+        animation-timing-function: linear;
+        animation-fill-mode: both;
         animation-timeline: --sketch;
         animation-range: cover 38% cover 54%;
       }
       .line-pen {
         stroke-dasharray: 1;
-        animation: draw linear both;
+        animation-name: draw;
+        animation-timing-function: linear;
+        animation-fill-mode: both;
         animation-timeline: --rule;
         animation-range: entry 0% cover 50%;
       }
@@ -349,26 +360,37 @@ const line = draw(
       .doodle {
         width: min(100%, calc((100vh - 500px) * 220 / 170));
       }
+      /* Longhands only, see above. */
       .line-pen {
-        animation: draw linear both;
+        animation-name: draw;
+        animation-timing-function: linear;
+        animation-fill-mode: both;
         animation-timeline: --how;
         animation-range: contain 4% contain 88%;
       }
       .step {
-        animation: wake linear both;
+        animation-name: wake;
+        animation-timing-function: linear;
+        animation-fill-mode: both;
         animation-timeline: --how;
       }
       .step .num {
-        animation: reach linear both;
+        animation-name: reach;
+        animation-timing-function: linear;
+        animation-fill-mode: both;
         animation-timeline: --how;
       }
       .step .doodle .stroke {
-        animation: draw linear both;
+        animation-name: draw;
+        animation-timing-function: linear;
+        animation-fill-mode: both;
         animation-timeline: --how;
       }
       .step .doodle .hatch,
       .step .doodle .dot {
-        animation: appear linear both;
+        animation-name: appear;
+        animation-timing-function: linear;
+        animation-fill-mode: both;
         animation-timeline: --how;
       }
       /* contain 0% is the moment the section pins. Each step gets 22% of
