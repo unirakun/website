@@ -179,19 +179,37 @@ button {
   -webkit-mask: var(--pen) no-repeat center / 100% 100%;
   mask: var(--pen) no-repeat center / 100% 100%;
 }
-/* ~Struck~ words: the same pen stroke, in red, across the middle and a
-   little slanted. */
+/* ~Struck~ words: crossed out in red pen, "not this". Two strokes make the
+   cross: the first rises from bottom left to top right (::after), the
+   second falls from top left to bottom right (::before, the same stroke
+   flipped so the two don't look stamped). */
+.key.strike::before,
 .key.strike::after {
-  bottom: 0.3em;
-  height: 0.32em;
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: -0.08em;
+  bottom: auto;
+  left: -0.08em;
+  height: 0.3em;
+  margin-top: -0.15em;
   background: var(--red-pen);
-  transform: rotate(-3deg);
+  -webkit-mask: var(--pen) no-repeat center / 100% 100%;
+  mask: var(--pen) no-repeat center / 100% 100%;
+}
+.key.strike::after {
+  transform: rotate(-9deg);
+}
+.key.strike::before {
+  transform: rotate(9deg) scaleY(-1);
 }
 /* Every mark draws itself, left to right like a pen, once it scrolls into
    view (the marks script in Layout.astro adds .is-drawn). The head script
    sets .marks-ready only when motion is welcome, so without it the marks
-   are simply there. The strike comes a beat later, as the punchline. */
-.marks-ready .key:not(.is-drawn)::after {
+   are simply there. The cross comes a beat later, as the punchline, one
+   stroke after the other. */
+.marks-ready .key:not(.is-drawn)::after,
+.marks-ready .key.strike:not(.is-drawn)::before {
   clip-path: inset(0 100% 0 0);
 }
 .key.is-drawn::after {
@@ -202,7 +220,10 @@ button {
   --mark-delay: 450ms;
 }
 .key.strike.is-drawn::after {
-  animation-duration: 450ms;
+  animation-duration: 420ms;
+}
+.key.strike.is-drawn::before {
+  animation: pen 420ms 1050ms cubic-bezier(0.6, 0, 0.3, 1) both;
 }
 @keyframes pen {
   from {
