@@ -12,10 +12,10 @@
   },
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build && node scripts/cv-pdf.mjs",
+    "build": "astro build && node scripts/check-css.mjs && node scripts/cv-pdf.mjs",
     "preview": "astro preview",
     "format": "prettier --write .",
-    "build:site": "astro build"
+    "build:site": "astro build && node scripts/check-css.mjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "3.7.4",

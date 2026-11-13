@@ -584,8 +584,12 @@ const jsonLd = {
     background: var(--bg);
   }
   @supports (animation-timeline: scroll()) {
+    /* Longhands, never the `animation` shorthand: the production minifier
+       folds the timeline into it and browsers then drop the animation. */
     .bar {
-      animation: bar-line linear both;
+      animation-name: bar-line;
+      animation-timing-function: linear;
+      animation-fill-mode: both;
       animation-timeline: scroll();
       animation-range: 0 48px;
     }
@@ -966,13 +970,18 @@ const jsonLd = {
   }
   /* The stroke draws itself and the ring pops in as each role scrolls by. */
   @supports (animation-timeline: view()) {
+    /* Longhands only, as for .bar above. */
     .timeline-line {
-      animation: reveal linear both;
+      animation-name: reveal;
+      animation-timing-function: linear;
+      animation-fill-mode: both;
       animation-timeline: view();
       animation-range: entry 0% entry 100%;
     }
     .node {
-      animation: pop linear both;
+      animation-name: pop;
+      animation-timing-function: linear;
+      animation-fill-mode: both;
       animation-timeline: view();
       animation-range: entry 10% entry 80%;
     }
